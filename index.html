@@ -820,7 +820,40 @@
       const c = document.getElementById('shopCta');
       setInterval(()=> c.animate([{transform:'translateY(0)'},{transform:'translateY(-6px)'},{transform:'translateY(0)'}], {duration:1400, iterations:1}), 2800);
     });
+// === AUTO SWITCH PRODUCTS ===
 
+// Shuffle array
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Automatically shuffle and re-render products
+function autoSwitchProducts() {
+  const container = document.querySelector('.product-container'); // change class if different
+  if (!container) return;
+  const cards = Array.from(container.children);
+  const shuffled = shuffleArray(cards);
+
+  // Remove all old ones
+  container.innerHTML = '';
+
+  // Add back in new order with fade-in animation
+  shuffled.forEach(card => {
+    card.style.opacity = 0;
+    container.appendChild(card);
+    setTimeout(() => {
+      card.style.transition = 'opacity 0.8s';
+      card.style.opacity = 1;
+    }, 100);
+  });
+}
+
+// Run every 8 seconds (you can change the timing)
+setInterval(autoSwitchProducts, 8000);
   </script>
 </body>
 </html>
