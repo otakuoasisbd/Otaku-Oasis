@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otaku Oasis</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <header>
+        <h1>Otaku Oasis</h1>
+        <div class="cart-icon" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
+    </header>
+
+    <main>
+        <section id="shop">
+            <h2>Shop</h2>
+            <div class="products" id="products-container">
+                <!-- Products will be injected here from script.js -->
+            </div>
+        </section>
+
+        <section id="pre-orders">
+            <h2>Pre-Orders</h2>
+            <div class="products" id="preorders-container">
+                <!-- Pre-order products will appear here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar">
+        <h3>Your Cart</h3>
+        <ul id="cart-items"></ul>
+        <button id="checkout-btn">Checkout</button>
+    </div>
+
+    <script src="assets/script.js"></script>
+</body>
+</html>
