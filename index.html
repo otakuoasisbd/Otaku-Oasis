@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Otaku Oasis - Your Fandom Gateway</title>
-  <link rel="icon" type="image/png" href="assets/logo.png">
-  <meta name="description" content="Otaku Oasis — anime collectibles, figures, pre-orders." />
+  <link rel="icon" type="image/png" href="assets/otaku logo main.png">
+  <meta name="description" content="Otaku Oasis — anime collectibles & figures." />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -286,7 +286,7 @@
         <aside class="contact-card" style="padding:14px;border-radius:12px;background:var(--card)">
           <h4 style="margin-top:0;color:var(--accent2)">Contact & Hours</h4>
           <p style="color:var(--muted)">Email: <a href="mailto:otakuoasisbd@gmail.com" style="color:var(--muted);text-decoration:underline">otakuoasisbd@gmail.com</a></p>
-          <p style="color:var(--muted)">Phone: +8801558056703</p>
+          <p style="color:var(--muted)">Phone: </p>
           <p style="color:var(--muted)">Pickup: New Elephant Road</p>
         </aside>
       </div>
@@ -330,9 +330,6 @@
     </div>
   </footer>
 
-  <!-- Clock -->
-  <div id="clock" aria-hidden="true" style="position:fixed;bottom:20px;right:20px;background: rgba(10, 0, 20, 0.5);color: var(--accent2);font-family:'Orbitron',sans-serif;font-size:0.95rem;padding:10px 14px;border-radius:12px;text-align:center;z-index:1000;box-shadow:0 4px 18px rgba(123,92,255,0.06);backdrop-filter: blur(6px);border:1px solid rgba(255,255,255,0.03)"></div>
-
   <!-- Quick Info -->
   <button class="quick-btn" id="quickBtn" aria-expanded="false" aria-controls="quickPanel" title="Quick Info">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent1);box-shadow:0 6px 18px rgba(255,45,111,0.08)"></span>
@@ -343,7 +340,7 @@
     <h4>Otaku Oasis — Quick Info</h4>
     <p style="margin:0;color:var(--muted)">Open: Sat-Thu • Pickup: New Elephant Road</p>
     <div class="contact-row" style="margin-top:8px;display:flex;gap:8px;align-items:center">
-      <div style="font-size:13px;color:var(--muted)">Phone: +8801558056703</div>
+      <div style="font-size:13px;color:var(--muted)">Phone: +8801</div>
       <a class="btn primary" href="https://www.facebook.com/messages/t/737804756085179" target="_blank" style="padding:8px 10px;font-weight:700">Chat</a>
     </div>
     <p style="margin-top:10px;color:var(--muted);font-size:13px">Email: <a href="mailto:otakuoasisbd@gmail.com" style="color:var(--muted);text-decoration:underline">otakuoasisbd@gmail.com</a></p>
@@ -354,7 +351,7 @@
   </div>
 
   <!-- Chat bubble -->
-  <button class="chat-bubble" id="chatBubble" title="Chat with us" aria-label="Open chat" onclick="window.open('https://wa.me/8801558056703','_blank')">
+  <button class="chat-bubble" id="chatBubble" title="Chat with us" aria-label="Open chat" onclick="window.open('https://www.facebook.com/messages/t/737804756085179','_blank')">
     💬
   </button>
 
@@ -413,15 +410,6 @@
     /* ======= small helpers ======= */
     function e(sel){ return document.querySelector(sel); }
     function el(tag, attrs){ const d=document.createElement(tag); if(attrs) Object.assign(d, attrs); return d; }
-
-    /* ======= clock ======= */
-    function updateClock(){
-      const now=new Date();
-      const options={timeZone:'Asia/Dhaka', weekday:'short', year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'};
-      document.getElementById('clock').textContent = now.toLocaleString('en-US', options);
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
 
     /* ======= progress bar ======= */
     document.addEventListener('scroll', ()=>{
