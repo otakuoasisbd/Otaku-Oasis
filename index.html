@@ -374,28 +374,30 @@
 
   <script>
     // ====== Data (preserve exactly names, images, descriptions, preorders) ======
-    const products = [
-      {id:'akaza1', name:'Akaza', priceText:'700tk', price:700, imgs:['assets/akaza1.JPEG','assets/akaza2.JPEG','assets/akaza3.JPEG'], desc:'Akaza figure Size:28cm from Demon Slayer.', category:'Demon Slayer'},
-      {id:'marin', name:'Marin Kitagawa', priceText:'800tk', price:800, imgs:['assets/marin1.JPEG','assets/marin2.JPEG','assets/marin3.JPEG'], desc:'Limited edition Marin figure from My Dressup Darling with box.', category:'Other'},
-      {id:'tanjiro', name:'Tanjiro', priceText:'800tk', price:800, imgs:['assets/tanjiro1.JPG','assets/tanjiro2.JPG','assets/tanjiro3.JPG'], desc:'Tanjiro Kamado Size:28cm from Demon Slayer.', category:'Demon Slayer'},
-      {id:'makima', name:'Bunny Makima', priceText:'2000tk', price:2000, imgs:['assets/makima1.jpeg','assets/makima2.jpeg','assets/makima3.jpeg'], desc:'Original Furyu Makima figure Size:28cm from Chainsawman with box.', category:'Chainsawman'},
-      {id:'rem', name:'Rem', priceText:'600tk', price:600, imgs:['assets/rem1.jpg','assets/rem2.JPEG','assets/rem3.jpg'], desc:'Rem figure Size:28cm from Re:Zero.', category:'Other'},
-      {id:'tohka', name:'Tohka Yatogami', priceText:'800tk', price:800, imgs:['assets/tohka1.jpg','assets/tohka2.jpg','assets/tohka3.jpg'], desc:'Tohka Yatogami figure Size:28cm from Date a Live Girl.', category:'Other'},
-      {id:'chibi1', name:'Chibi Zenitsu', priceText:'500tk', price:500, imgs:['assets/zenitsu.small.jpg'], desc:'Chibi cute Zenitsu figure Size:8cm from Demon Slayer.', category:'Demon Slayer'},
-      {id:'chibi2', name:'Chibi Nezuko', priceText:'500tk', price:500, imgs:['assets/nezuko.small.jpg'], desc:'Chibi cute Nezuko figure Size:8cm from Demon Slayer.', category:'Demon Slayer'},
-      {id:'zoro1', name:'Zoro Three Swords', priceText:'900tk', price:900, imgs:['assets/zoro1.jpeg','assets/zoro2.jpeg','assets/zoro3.jpeg'], desc:'Zoro Three Sword Figure Size:23.5cm from One Piece.', category:'One Piece'}
-      {id:'pw1', name:'Pocket Watch OP', priceText:'900tk', price:900, imgs:['assets/opw.JPEG','assets/opw2.JPEG','assets/opw3.JPEG'], desc:'One Piece Pocket Watch from One Piece.', category:'One Piece'},
-      {id:'mini', name:'Mini Naruto Set', priceText:'300tk', price:300, imgs:['assets/n1.jpeg','assets/n2.jpeg','assets/n3.jpeg'], desc:'Cute mini figures (each) Size:8cm from Naruto.', category:'Naruto'},
-      {id:'mini', name:'Mini Naruto Set', priceText:'300tk', price:300, imgs:['assets/n4.JPG'], desc:'Cute mini figures(each) Size:6.5cm from Naruto.', category:'Naruto'},
-      {id:'mini', name:'Mini Naruto Set', priceText:'350tk', price:350, imgs:['assets/n5.JPG'], desc:'Cute mini figures(each) Size:10cm from Naruto.', category:'Naruto'}
-    ];
+   const products = [
+  {id:'akaza1', name:'Akaza', priceText:'700tk', price:700, imgs:['assets/akaza1.JPEG','assets/akaza2.JPEG','assets/akaza3.JPEG'], desc:'Akaza figure Size:28cm from Demon Slayer.', category:'Demon Slayer'},
+  {id:'marin', name:'Marin Kitagawa', priceText:'800tk', price:800, imgs:['assets/marin1.JPEG','assets/marin2.JPEG','assets/marin3.JPEG'], desc:'Limited edition Marin figure from My Dressup Darling with box.', category:'Other'},
+  {id:'tanjiro', name:'Tanjiro', priceText:'800tk', price:800, imgs:['assets/tanjiro1.JPG','assets/tanjiro2.JPG','assets/tanjiro3.JPG'], desc:'Tanjiro Kamado Size:28cm from Demon Slayer.', category:'Demon Slayer'},
+  {id:'makima', name:'Bunny Makima', priceText:'2000tk', price:2000, imgs:['assets/makima1.jpeg','assets/makima2.jpeg','assets/makima3.jpeg'], desc:'Original Furyu Makima figure Size:28cm from Chainsawman with box.', category:'Chainsawman'},
+  {id:'rem', name:'Rem', priceText:'600tk', price:600, imgs:['assets/rem1.jpg','assets/rem2.JPEG','assets/rem3.jpg'], desc:'Rem figure Size:28cm from Re:Zero.', category:'Other'},
+  {id:'tohka', name:'Tohka Yatogami', priceText:'800tk', price:800, imgs:['assets/tohka1.jpg','assets/tohka2.jpg','assets/tohka3.jpg'], desc:'Tohka Yatogami figure Size:28cm from Date a Live Girl.', category:'Other'},
+  {id:'chibi1', name:'Chibi Zenitsu', priceText:'500tk', price:500, imgs:['assets/zenitsu.small.jpg'], desc:'Chibi cute Zenitsu figure Size:8cm from Demon Slayer.', category:'Demon Slayer'},
+  {id:'chibi2', name:'Chibi Nezuko', priceText:'500tk', price:500, imgs:['assets/nezuko.small.jpg'], desc:'Chibi cute Nezuko figure Size:8cm from Demon Slayer.', category:'Demon Slayer'},
+  {id:'zoro1', name:'Zoro Three Swords', priceText:'900tk', price:900, imgs:['assets/zoro1.jpeg','assets/zoro2.jpeg','assets/zoro3.jpeg'], desc:'Zoro Three Sword Figure Size:23.5cm from One Piece.', category:'One Piece'},
+  {id:'pw1', name:'Pocket Watch OP', priceText:'900tk', price:900, imgs:['assets/opw.JPEG','assets/opw2.JPEG','assets/opw3.JPEG'], desc:'One Piece Pocket Watch from One Piece.', category:'One Piece'},
+  {id:'mini1', name:'Mini Naruto Set', priceText:'300tk', price:300, imgs:['assets/n1.jpeg','assets/n2.jpeg','assets/n3.jpeg'], desc:'Cute mini figures (each) Size:8cm from Naruto.', category:'Naruto'},
+  {id:'mini2', name:'Mini Naruto Set', priceText:'300tk', price:300, imgs:['assets/n4.JPG'], desc:'Cute mini figures(each) Size:6.5cm from Naruto.', category:'Naruto'},
+  {id:'mini3', name:'Mini Naruto Set', priceText:'350tk', price:350, imgs:['assets/n5.JPG'], desc:'Cute mini figures(each) Size:10cm from Naruto.', category:'Naruto'},
+  {id:'gojol', name:'Labubu Gojo', priceText:'800tk', price:800, imgs:['assets/lgojo1.JPG'], desc:'Cute Labubu Gojo from Jujutsu Kaisen.', category:'Jujutsu Kaisen'}
+];
 
-    const preorders = [
-      {id:'pre1', title:'Demon Slayer Chibi Set', eta:'2026-01', note:'Size:6cm.Reserve now, limited run.', imgs:['assets/kny1.JPG','assets/kny2.JPG']},
-      {id:'pre2', title:'Jujutsu Kaisen Labubu Set', eta:'2025-12', note:'Bundle pre-order discount.', imgs:['assets/jjkl.JPG','assets/jjkl1.JPG','assets/jjkl2.JPG','assets/jjkl3.JPG','assets/jjkl4.JPG','assets/jjkl5.JPG','assets/jjkl6.JPG']}
-      {id:'pre3', title:'Albedo Exquisite', eta:'2026-02', note:'Size:Xcm.limited edition.', imgs:['assets/kny.JPG','assets/kny.JPG']},
-      {id:'pre4', title:'Gojo Satoru', eta:'2026-03', note:'Size:X .', imgs:['assets/kny.JPG','assets/kny.JPG']},
-    ];
+const preorders = [
+  {id:'pre1', title:'Demon Slayer Chibi Set', eta:'2026-01', note:'Size:6cm. Reserve now, limited run.', imgs:['assets/kny1.JPG','assets/kny2.JPG']},
+  {id:'pre2', title:'Jujutsu Kaisen Labubu Set', eta:'2025-12', note:'Bundle pre-order discount.', imgs:['assets/jjkl.JPG','assets/jjkl1.JPG','assets/jjkl2.JPG','assets/jjkl3.JPG','assets/jjkl4.JPG','assets/jjkl5.JPG','assets/jjkl6.JPG']},
+  {id:'pre3', title:'Albedo Exquisite', eta:'2026-02', note:'Size:Xcm. Limited edition.', imgs:['assets/kny.JPG','assets/kny.JPG']},
+  {id:'pre4', title:'Gojo Satoru', eta:'2026-03', note:'Size:X.', imgs:['assets/kny.JPG','assets/kny.JPG']}
+];
+
 
     const MESSENGER_URL = 'https://www.facebook.com/messages/t/737804756085179';
 
