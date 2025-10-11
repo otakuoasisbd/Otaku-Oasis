@@ -405,13 +405,31 @@
     document.getElementById('clearCartBtn2').addEventListener('click', ()=>{ if(confirm('Clear cart?')) clearCart(); });
 
     // checkout -> messenger with prefilled message
-    document.getElementById('checkoutBtn').addEventListener('click', ()=>{
-      const cart = getCart(); if(!cart.length){ alert('Cart is empty'); return; }
-      const lines = cart.map((i,idx)=> `${idx+1}. ${i.name} — ${i.priceText} × ${i.qty}`);
-      const total = cart.reduce((s,i)=>s + (i.price * i.qty), 0);
-      const msg = `I want to buy:\n${lines.join('\n')}\n\nTotal: ${total} tk\n\nPlease confirm availability and pickup/payment details.`;
-      redirectToMessenger(msg);
-    });
+    <script>
+document.getElementById('checkout-btn').addEventListener('click', function() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  if (cart.length === 0) {
+    alert('Your cart is empty!');
+    return;
+  }
+
+  let message = 'Hi Otaku Oasis! I want to order:\n\n';
+  let total = 0;
+  cart.forEach(item => {
+    message += `• ${item.name} — Tk. ${item.price}\n`;
+    total += item.price;
+  });
+  message += `\nTotal: Tk. ${total}`;
+
+  // Encode message for Messenger
+  const encodedMessage = encodeURIComponent(message);
+
+  // Redirect to Messenger with prefilled message
+  const messengerLink = `https://www.facebook.com/messages/t/737804756085179?text=${encodedMessage}`;
+  window.open(messengerLink, '_blank');
+});
+</script>
+
 
     function redirectToMessenger(message){ const url = MESSENGER_URL + '?message=' + encodeURIComponent(message); window.open(url, '_blank'); }
 
