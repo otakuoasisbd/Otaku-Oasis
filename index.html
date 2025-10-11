@@ -1,380 +1,197 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Otaku Oasis - Your Fandom Gateaway</title>
-  <link rel="icon" type="image/png" href="assets/otaku logo main.png">
-  <meta name="description" content="Otaku Oasis — anime collectibles & figures." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#07060a;
-      --surface:#0c0b10;
-      --glass: rgba(255,255,255,0.03);
-      --glass-strong: rgba(255,255,255,0.05);
-      --muted:#9aa0a6;
-      --accent1:#b63cff; /* neon purple */
-      --accent2:#7b5cff; /* rich purple */
-      --accent3:#1fe0d6; /* teal */
-      --accent-glow: 0 20px 60px rgba(182,60,255,0.12);
-      --radius:14px;
-      --ease: cubic-bezier(.2,.9,.2,1);
-      --glass-border: 1px solid rgba(255,255,255,0.04);
-      --card-gap:18px;
-      --max-width:1100px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anime Haven Figures</title>
+<style>
+:root {
+  --bg:#0a0a0f;
+  --card-bg:rgba(25,25,35,0.7);
+  --glass-border:rgba(255,255,255,0.1);
+  --text:#fff;
+  --muted:#aaa;
+  --accent:#ff66cc;
+  --accent-glow:0 0 10px rgba(255,102,204,0.6);
+}
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      background:
-        radial-gradient(800px 400px at 10% 8%, rgba(123,92,255,0.04), transparent),
-        linear-gradient(180deg,var(--bg),#020205);
-      color:#e9eef8;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      overflow-y:auto;
-      scroll-behavior:smooth;
-      -webkit-tap-highlight-color: transparent;
-    }
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif;transition:all .3s ease;}
+body{
+  background:linear-gradient(135deg,#0a0a0f,#1a1a2f);
+  color:var(--text);
+  overflow-x:hidden;
+  min-height:100vh;
+}
 
-    /* top progress */
-    #progress{position:fixed;left:0;top:0;height:4px;width:0;background:linear-gradient(90deg,var(--accent1),var(--accent2));z-index:9999;border-radius:0 6px 6px 0;box-shadow:var(--accent-glow)}
+/* Glassy navbar */
+nav{
+  backdrop-filter:blur(12px) saturate(180%);
+  background:rgba(255,255,255,0.05);
+  border-bottom:1px solid var(--glass-border);
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;
+}
+nav h1{font-size:1.3rem;color:var(--accent);text-shadow:var(--accent-glow);}
+nav input{
+  background:rgba(255,255,255,0.1);
+  border:none;
+  border-radius:25px;
+  padding:8px 15px;
+  color:#fff;
+  width:150px;
+}
+nav input:focus{outline:1px solid var(--accent);}
+nav .cart-btn{
+  background:var(--accent);
+  color:#fff;border:none;border-radius:20px;
+  padding:6px 14px;
+  cursor:pointer;box-shadow:var(--accent-glow);
+}
+nav .cart-btn:hover{transform:scale(1.05);}
 
-    /* header */
-    header{
-      position:sticky;top:0;z-index:60;padding:10px 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
-      backdrop-filter: blur(8px);
-      border-bottom:var(--glass-border);
-      transition:transform .28s var(--ease), background .28s var(--ease);
-    }
-    .nav-wrap{
-      max-width:var(--max-width);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;
-    }
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand img{height:44px;border-radius:10px;object-fit:cover}
-    .brand h1{font-size:18px;margin:0;color:var(--accent1);font-weight:800;letter-spacing:0.6px}
-    .brand small{display:block;color:var(--muted);font-size:12px}
-    nav{display:flex;gap:8px;align-items:center}
-    .nav-link{
-      color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:700;font-size:14px;
-      transition:background .18s var(--ease), color .18s var(--ease), transform .18s var(--ease);
-    }
-    .nav-link:hover, .nav-link.active{
-      color:#fff;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);transform:translateY(-2px);
-    }
+/* Progress bar */
+#progress{
+  position:fixed;top:0;left:0;height:3px;
+  background:var(--accent);
+  width:0%;
+  z-index:999;
+}
 
-    /* layout */
-    main{max-width:var(--max-width);margin:24px auto;padding:0 18px}
-    .hero{
-      display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start;
-    }
-    .card-hero{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      padding:32px;border-radius:var(--radius);border:var(--glass-border);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-      transition:transform .28s var(--ease), box-shadow .28s var(--ease);
-    }
-    .card-hero:hover{transform:translateY(-6px);box-shadow:var(--accent-glow)}
-    .hero h2{margin:0;font-size:34px;line-height:1.05;font-weight:900;
-      background:linear-gradient(90deg,var(--accent1),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;font-family: 'Orbitron', Inter, sans-serif}
-    .hero p{color:var(--muted);margin-top:10px}
-    .cta{
-      display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:12px 16px;border-radius:12px;
-      background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#05060a;font-weight:900;text-decoration:none;
-      box-shadow:0 8px 28px rgba(123,92,255,0.12);transition:transform .18s var(--ease);
-    }
-    .cta:active{transform:translateY(1px)}
-    .cta .spark{font-family: 'Orbitron', sans-serif; font-weight:700}
+/* Product grid */
+#products-grid,#pre-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:20px;
+  padding:20px;
+}
 
-    /* controls */
-    .controls{display:flex;gap:12px;align-items:center;margin-top:18px;flex-wrap:wrap}
-    .control-group{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,0.015);padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
-    .control-group label{font-size:13px;color:var(--muted)}
-    .controls input,.controls select{
-      padding:10px 12px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:inherit;font-weight:700;min-width:140px;
-    }
-    .controls input::placeholder{color:rgba(255,255,255,0.26);font-weight:600}
+/* Product cards */
+.product-card{
+  background:var(--card-bg);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 0 10px rgba(0,0,0,0.4);
+  cursor:pointer;
+  backdrop-filter:blur(12px);
+}
+.product-card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 0 15px rgba(255,102,204,0.2);}
+.product-card img{width:100%;height:200px;object-fit:cover;border-bottom:1px solid var(--glass-border);}
+.p-title{font-weight:600;font-size:1rem;padding:8px 12px;}
+.p-desc{font-size:0.85rem;color:var(--muted);padding:0 12px 8px 12px;}
+.p-price{font-weight:700;color:var(--accent);padding:0 12px 8px 12px;}
 
-    /* grid */
-    .section{margin-top:28px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--card-gap)}
+/* Buttons */
+.btn{
+  border:none;
+  border-radius:12px;
+  padding:6px 12px;
+  cursor:pointer;
+  font-size:0.85rem;
+}
+.btn.primary{
+  background:var(--accent);
+  color:#fff;
+  box-shadow:var(--accent-glow);
+}
+.btn.primary:hover{filter:brightness(1.2);}
+.btn.ghost{
+  background:rgba(255,255,255,0.1);
+  color:#fff;
+}
+.btn.ghost:hover{background:rgba(255,255,255,0.2);}
 
-    .product-card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.01));
-      border:var(--glass-border);padding:12px;border-radius:12px;overflow:hidden;
-      transition:transform .28s var(--ease),box-shadow .28s var(--ease), border-color .28s var(--ease);
-      cursor:pointer;display:flex;flex-direction:column;height:100%;
-    }
-    .product-card:hover{transform:translateY(-10px);box-shadow:var(--accent-glow);border-color:rgba(123,92,255,0.12)}
-    .thumb{height:220px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); margin-bottom:12px}
-    .thumb img{max-width:100%;max-height:100%;display:block;transition:transform .6s var(--ease)}
-    .product-card:hover .thumb img{transform:scale(1.06)}
-    .p-title{font-weight:800;margin:6px 0;font-size:16px}
-    .p-desc{color:var(--muted);font-size:13px;margin:6px 0;flex:1}
-    .p-price{font-weight:900;color:var(--accent1);font-size:16px}
+/* Modal */
+#modal{
+  position:fixed;
+  inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(10px);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s ease;
+  z-index:9999;
+}
+#modal.open{opacity:1;pointer-events:auto;}
+.modal-content{
+  background:rgba(30,30,40,0.9);
+  border-radius:20px;
+  border:1px solid var(--glass-border);
+  padding:20px;
+  max-width:90%;
+  width:420px;
+  color:#fff;
+  position:relative;
+  box-shadow:0 0 20px rgba(255,102,204,0.2);
+}
+#modalImage{width:100%;border-radius:12px;object-fit:cover;}
+#modalThumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;}
+#modalThumbs img{width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;opacity:0.6;}
+#modalThumbs img.active{opacity:1;box-shadow:0 0 8px var(--accent);}
+#modalCloseBtn{
+  position:absolute;top:10px;right:10px;
+  background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;
+}
+.modal-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
 
-    .card-actions{display:flex;gap:8px;margin-top:12px;align-items:center}
-    .btn{
-      padding:10px 12px;border-radius:12px;border:none;font-weight:900;cursor:pointer;min-width:44px;display:inline-flex;align-items:center;justify-content:center;
-      transition:transform .12s var(--ease), box-shadow .12s var(--ease), opacity .12s;
-    }
-    .btn:active{transform:translateY(1px)}
-    .btn.primary{
-      background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#05060a;
-      box-shadow:0 10px 30px rgba(123,92,255,0.12);
-    }
-    .btn.ghost{
-      background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);
-    }
-    .btn.icon{
-      padding:8px;border-radius:10px;font-size:16px;
-    }
+/* Toast */
+#toast{
+  position:fixed;
+  bottom:20px;left:50%;transform:translateX(-50%) translateY(100%);
+  background:rgba(20,20,30,0.9);
+  color:#fff;
+  padding:10px 20px;
+  border-radius:20px;
+  box-shadow:var(--accent-glow);
+  opacity:0;
+  transition:all .4s ease;
+  z-index:99999;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-    /* preorders mimic shop */
-    .pre-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-
-    /* cart popup */
-    .cart-popup{position:fixed;right:20px;bottom:20px;width:360px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);box-shadow:0 20px 60px rgba(0,0,0,0.6);z-index:2000;transform:translateY(18px);opacity:0;pointer-events:none;transition:opacity .18s ease, transform .18s ease}
-    .cart-popup.open{transform:translateY(0);opacity:1;pointer-events:auto}
-    .cart-header{display:flex;align-items:center;justify-content:space-between;padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)}
-    .cart-items{max-height:260px;overflow:auto;padding:12px}
-    .cart-item{display:flex;gap:8px;align-items:center;border-radius:8px;padding:8px}
-    .cart-item img{height:64px;width:64px;object-fit:cover;border-radius:8px}
-    .cart-item .meta{flex:1}
-    .cart-footer{padding:12px;border-top:1px solid rgba(255,255,255,0.02);display:flex;flex-direction:column;gap:8px}
-
-    /* floating cart button */
-    .cart-fab{position:fixed;right:20px;bottom:20px;height:56px;width:56px;border-radius:50%;background:linear-gradient(180deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:#05060a;font-weight:900;z-index:2100;box-shadow:0 12px 36px rgba(0,0,0,0.6);cursor:pointer;font-size:20px}
-
-    footer{max-width:var(--max-width);margin:28px auto;color:var(--muted);padding:0 18px}
-
-    /* modal (details) */
-    .modal-backdrop{
-      position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:3000;padding:20px;
-    }
-    .modal-backdrop.open{display:flex}
-    .modal{
-      width:100%;max-width:880px;background:linear-gradient(180deg,rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:18px;border:var(--glass-border);
-      display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start;box-shadow:var(--accent-glow);
-    }
-    .modal .carousel{border-radius:10px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);display:flex;align-items:center;justify-content:center;height:420px}
-    .modal .carousel img{max-width:100%;max-height:100%;display:block;transition:transform .35s var(--ease)}
-    .modal .meta h3{margin:0;font-size:20px;color:var(--accent2);font-weight:900}
-    .modal .meta p{color:var(--muted);margin-top:8px}
-    .modal .meta .price{margin-top:12px;font-weight:900;color:var(--accent1);font-size:18px}
-    .modal .thumb-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-    .thumb-row img{height:56px;width:56px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent}
-    .thumb-row img.active{border-color:var(--accent2)}
-
-    /* toast */
-    .toast{
-      position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#05060a;padding:10px 14px;border-radius:999px;font-weight:800;box-shadow:0 12px 40px rgba(0,0,0,0.6);z-index:4000;opacity:0;pointer-events:none;transition:opacity .28s, transform .28s;
-    }
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);pointer-events:auto}
-
-    /* responsive */
-    @media(max-width:980px){
-      .hero{grid-template-columns:1fr}
-      .card-hero{padding:20px}
-      .modal{grid-template-columns:1fr;max-width:680px}
-      .modal .carousel{height:300px}
-      .thumb-row img{height:48px;width:48px}
-      .cart-popup{right:6vw;left:6vw;width:auto}
-      .thumb{height:180px}
-    }
-    @media(max-width:520px){
-      .controls input,.controls select{min-width:110px}
-      .thumb{height:160px}
-      .product-card{padding:10px}
-      .cart-fab{right:12px;bottom:12px;height:52px;width:52px}
-      .cart-popup{right:10px;left:10px}
-    }
-
-    a:focus,button:focus,input:focus{outline:3px solid rgba(123,92,255,0.12);outline-offset:2px;border-radius:8px}
-    .small-muted{color:var(--muted);font-size:13px}
-  </style>
+/* Responsive tweaks */
+@media (max-width:600px){
+  nav h1{font-size:1rem;}
+  #products-grid,#pre-list{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+  .modal-content{width:90%;}
+}
+</style>
 </head>
 <body>
-  <div id="progress" aria-hidden="true"></div>
+<div id="progress"></div>
 
-  <header>
-    <div class="nav-wrap">
-      <div class="brand" aria-hidden="false">
-        <img src="assets/wb otaku.PNG" alt="Otaku Oasis" onerror="this.style.display='none'">
-        <div>
-          <h1>Otaku Oasis</h1>
-          <small>Anime figures & Collectibles</small>
-        </div>
-      </div>
-      <nav role="navigation" aria-label="Main navigation">
-        <a href="#home" class="nav-link">Home</a>
-        <a href="#shop" class="nav-link">Shop</a>
-        <a href="#preorders" class="nav-link">Pre-orders</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#contact" class="nav-link">Contact</a>
-      </nav>
-    </div>
-  </header>
+<nav>
+  <h1>🌸 Anime Haven</h1>
+  <input id="searchBox" placeholder="Search...">
+  <button class="cart-btn" id="checkoutBtn">Checkout</button>
+</nav>
 
-  <main>
-    <section id="home" class="hero" tabindex="-1" aria-labelledby="hero-title">
-      <div class="card-hero" role="region" aria-label="Hero">
-        <h2 id="hero-title">Find rare anime figures & limited collectibles</h2>
-        <p>Premium hand-picked figures, pre-orders and exclusive drops. Browse, reserve, and contact us directly — designed for collectors who want the best.</p>
-        <a href="#shop" class="cta" aria-label="Shop now"><span class="spark">⚡</span> Shop Now</a>
+<section id="products-grid"></section>
+<h2 style="padding:0 20px;color:var(--accent);margin-top:10px;">Pre-Orders</h2>
+<section id="pre-list"></section>
 
-        <div class="controls" role="region" aria-label="Search and filters">
-          <div class="control-group" role="search" aria-label="Search products">
-            <label for="search" class="small-muted" aria-hidden="true">Search</label>
-            <input id="search" placeholder="Search by name or description..." aria-label="Search products">
-          </div>
-
-          <div class="control-group" aria-hidden="false">
-            <label for="categoryFilter" class="small-muted">Category</label>
-            <select id="categoryFilter" aria-label="Filter category">
-              <option value="">All</option>
-              <option>Naruto</option>
-              <option>Demon Slayer</option>
-              <option>Jujutsu Kaisen</option>
-              <option>One Piece</option>
-              <option>Chainsawman</option>
-              <option>Other</option>
-            </select>
-            <select id="sortBy" aria-label="Sort products">
-              <option value="default">Sort</option>
-              <option value="price-asc">Price ↑</option>
-              <option value="price-desc">Price ↓</option>
-              <option value="name-asc">Name A–Z</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <aside style="background:var(--surface);padding:18px;border-radius:12px;border:var(--glass-border);min-height:140px">
-        <h3 style="margin:0 0 8px 0;color:var(--accent2)">HIGHLIGHTS</h3>
-        <p style="color:var(--muted)">Quick categories and extras. Use the cart button to view items and checkout via Messenger.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-          <span style="background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-size:13px">Naruto</span>
-          <span style="background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-size:13px">Demon Slayer</span>
-          <span style="background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-size:13px">Jujutsu Kaisen</span>
-          <span style="background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-size:13px">One Piece</span>
-        </div>
-        <div style="margin-top:12px">
-          <button class="btn primary" id="openCartTop" aria-controls="cartPopup">Cart (<span id="cartCount">0</span>)</button>
-        </div>
-      </aside>
-    </section>
-
-    <!-- SHOP -->
-    <section id="shop" class="section" aria-labelledby="shop-title">
-      <h3 id="shop-title" style="color:var(--accent2);margin:6px 0 14px">Shop</h3>
-      <div id="products-grid" class="grid" role="list" aria-live="polite"></div>
-      <p id="noResults" class="muted" style="margin-top:14px;display:none;color:var(--muted)">No results found.</p>
-    </section>
-
-    <!-- PRE-ORDERS -->
-    <section id="preorders" class="section" aria-labelledby="preorders-title">
-      <h3 id="preorders-title" style="color:var(--accent2);margin:6px 0 14px">Pre-orders</h3>
-      <div id="pre-list" class="pre-grid"></div>
-    </section>
-
-    <section id="about" class="section" aria-labelledby="about-title">
-      <h3 id="about-title" style="color:var(--accent2);margin:6px 0 14px">About Otaku Oasis</h3>
-      <div style="display:grid;grid-template-columns:1fr 320px;gap:16px">
-        <div>
-          <p style="color:var(--muted)">Otaku Oasis started with one mission: to bring the best anime figures to passionate collectors at an affordable price. We source from trusted suppliers and inspect every item before listing it. Follow our socials for drop alerts and exclusive sales.</p>
-          <p style="color:var(--muted)">We update stock frequently — subscribe to our newsletter (coming soon) for alerts and exclusive offers.</p>
-        </div>
-        <aside style="padding:14px;border-radius:12px;background:var(--surface)">
-          <h4 style="margin-top:0;color:var(--accent2)">Contact & Hours</h4>
-          <p style="color:var(--muted)">Email: <a href="mailto:techoasis0cloud@gmail.com" style="color:var(--muted);text-decoration:underline">techoasis0cloud@gmail.com</a></p>
-          <p style="color:var(--muted)">Pickup: New Elephant Road</p>
-        </aside>
-      </div>
-    </section>
-
-    <section id="contact" class="section" aria-labelledby="contact-title">
-      <h3 id="contact-title" style="color:var(--accent2);margin:6px 0 14px">Contact</h3>
-      <div style="display:grid;grid-template-columns:1fr 320px;gap:16px">
-        <div>
-          <p style="color:var(--muted)">For inquiries, please email us directly. We typically reply within 24 hours.</p>
-          <p style="margin-top:12px"><a class="btn primary" href="mailto:techoasis0cloud@gmail.com">Email: techoasis0cloud@gmail.com</a></p>
-        </div>
-        <aside style="padding:14px;border-radius:12px;background:var(--surface)">
-          <h4 style="margin-top:0">Follow & Chat</h4>
-          <p style="color:var(--muted)"><a href="https://www.facebook.com/otakuoasisbd" target="_blank" style="color:var(--muted);text-decoration:underline">Facebook</a> • <a href="https://www.instagram.com/theotakuoasisbd" target="_blank" style="color:var(--muted);text-decoration:underline">Instagram</a></p>
-        </aside>
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    <div style="display:flex;justify-content:space-between;align-items:center;max-width:var(--max-width);margin:0 auto;padding:8px 18px">
-      <div>© <span id="year"></span> Otaku Oasis</div>
-      <div style="color:var(--muted);font-size:13px">a sister concern of Tech Oasis</div>
-    </div>
-  </footer>
-
-  <!-- floating cart button -->
-  <button id="cartFab" class="cart-fab" aria-label="Open cart">🛒</button>
-
-  <!-- cart popup -->
-  <div id="cartPopup" class="cart-popup" role="dialog" aria-hidden="true" aria-label="Shopping cart">
-    <div class="cart-header">
-      <strong>Cart</strong>
-      <div style="display:flex;gap:8px;align-items:center">
-        <div style="color:var(--muted);font-size:13px" id="cartCountLabel">0 items</div>
-        <button id="closeCart" class="btn ghost icon" aria-label="Close cart">×</button>
-      </div>
-    </div>
-    <div class="cart-items" id="cartItems"></div>
-    <div class="cart-footer">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div class="small-muted">Total:</div>
-        <div class="p-price" id="cartTotal">0 tk</div>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button id="checkoutBtn" class="btn primary" aria-label="Checkout">Checkout</button>
-        <button id="clearCartBtn2" class="btn ghost" aria-label="Clear cart">Clear</button>
-      </div>
-      <div style="color:var(--muted);font-size:13px">Checkout opens Messenger with order details.</div>
+<!-- Modal -->
+<div id="modal" aria-hidden="true">
+  <div class="modal-content">
+    <button id="modalCloseBtn">✖</button>
+    <img id="modalImage" src="" alt="">
+    <div id="modalThumbs"></div>
+    <h3 id="modalTitle" style="margin-top:10px;"></h3>
+    <p id="modalDesc" style="white-space:pre-line;margin:8px 0;"></p>
+    <div class="modal-footer">
+      <span id="modalPrice"></span>
+      <button id="modalAddBtn" class="btn primary">Add to Cart</button>
     </div>
   </div>
+</div>
 
-  <!-- modal for product details -->
-  <div id="modal" class="modal-backdrop" role="dialog" aria-hidden="true" aria-label="Product details">
-    <div class="modal" role="document">
-      <div>
-        <div class="carousel" id="modalImageWrap" aria-hidden="false">
-          <img id="modalImage" src="" alt="">
-        </div>
-        <div class="thumb-row" id="modalThumbs" aria-hidden="false"></div>
-      </div>
-      <div class="meta">
-        <h3 id="modalTitle"></h3>
-        <div id="modalDesc" class="small-muted"></div>
-        <div class="price" id="modalPrice"></div>
-        <div style="display:flex;gap:8px;margin-top:16px">
-          <button id="modalAddBtn" class="btn primary">Add to Cart</button>
-          <button id="modalCloseBtn" class="btn ghost">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Toast -->
+<div id="toast"></div>
 
-  <!-- toast -->
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script>
-    // ====== Data (preserve exactly names, images, descriptions, preorders) ======
-   const products = [
+<script>
+const products = [
   {id:'akaza1', name:'Akaza', priceText:'700tk', price:700, imgs:['assets/akaza1.JPEG','assets/akaza2.JPEG','assets/akaza3.JPEG'], desc:'Akaza figure Size:28cm from Demon Slayer.', category:'Demon Slayer'},
   {id:'marin', name:'Marin Kitagawa', priceText:'800tk', price:800, imgs:['assets/marin1.JPEG','assets/marin2.JPEG','assets/marin3.JPEG'], desc:'Limited edition Marin figure from My Dressup Darling with box.', category:'Other'},
   {id:'tanjiro', name:'Tanjiro', priceText:'800tk', price:800, imgs:['assets/tanjiro1.JPG','assets/tanjiro2.JPG','assets/tanjiro3.JPG'], desc:'Tanjiro Kamado Size:28cm from Demon Slayer.', category:'Demon Slayer'},
@@ -386,300 +203,149 @@
   {id:'zoro1', name:'Zoro Three Swords', priceText:'900tk', price:900, imgs:['assets/zoro1.jpeg','assets/zoro2.jpeg','assets/zoro3.jpeg'], desc:'Zoro Three Sword Figure Size:23.5cm from One Piece.', category:'One Piece'},
   {id:'pw1', name:'Pocket Watch OP', priceText:'900tk', price:900, imgs:['assets/opw.JPEG','assets/opw2.JPEG','assets/opw3.JPEG'], desc:'One Piece Pocket Watch from One Piece.', category:'One Piece'},
   {id:'mini1', name:'Mini Naruto Set', priceText:'300tk', price:300, imgs:['assets/n1.jpeg','assets/n2.jpeg','assets/n3.jpeg'], desc:'Cute mini figures (each) Size:8cm from Naruto.', category:'Naruto'},
-  {id:'mini2', name:'Mini Naruto Set', priceText:'300tk', price:300, imgs:['assets/n4.JPG'], desc:'Cute mini figures(each) Size:6.5cm from Naruto.', category:'Naruto'},
-  {id:'mini3', name:'Mini Naruto Set', priceText:'350tk', price:350, imgs:['assets/n5.JPG'], desc:'Cute mini figures(each) Size:10cm from Naruto.', category:'Naruto'},
   {id:'gojol', name:'Labubu Gojo', priceText:'800tk', price:800, imgs:['assets/lgojo1.JPG'], desc:'Cute Labubu Gojo from Jujutsu Kaisen.', category:'Jujutsu Kaisen'}
 ];
 
 const preorders = [
   {id:'pre1', title:'Demon Slayer Chibi Set', eta:'2026-01', note:'Size:6cm. Reserve now, limited run.', imgs:['assets/kny1.JPG','assets/kny2.JPG']},
-  {id:'pre2', title:'Jujutsu Kaisen Labubu Set', eta:'2025-12', note:'Bundle pre-order discount.', imgs:['assets/jjkl.JPG','assets/jjkl1.JPG','assets/jjkl2.JPG','assets/jjkl3.JPG','assets/jjkl4.JPG','assets/jjkl5.JPG','assets/jjkl6.JPG']},
-  {id:'pre3', title:'Albedo Exquisite', eta:'2026-02', note:'Size:Xcm. Limited edition.', imgs:['assets/kny.JPG','assets/kny.JPG']},
-  {id:'pre4', title:'Gojo Satoru', eta:'2026-03', note:'Size:X.', imgs:['assets/kny.JPG','assets/kny.JPG']}
+  {id:'pre2', title:'Jujutsu Kaisen Labubu Set', eta:'2025-12', note:'Bundle pre-order discount.', imgs:['assets/jjkl.JPG','assets/jjkl1.JPG','assets/jjkl2.JPG','assets/jjkl3.JPG','assets/jjkl4.JPG']},
+  {id:'pre3', title:'Albedo Exquisite', eta:'2026-02', note:'Size:Xcm. Limited edition.', imgs:['assets/kny.JPG']},
+  {id:'pre4', title:'Gojo Satoru', eta:'2026-03', note:'Size:X.', imgs:['assets/kny.JPG']}
 ];
 
+const MESSENGER_URL='https://www.facebook.com/messages/t/737804756085179';
+const $=s=>document.querySelector(s);
 
-    const MESSENGER_URL = 'https://www.facebook.com/messages/t/737804756085179';
+// progress
+document.addEventListener('scroll',()=>{
+  const s=document.documentElement;
+  const percent=(s.scrollTop)/(s.scrollHeight-s.clientHeight)*100||0;
+  $('#progress').style.width=percent+'%';
+},{passive:true});
 
-    // small helpers
-    const $ = sel => document.querySelector(sel);
-    const $$ = sel => Array.from(document.querySelectorAll(sel));
-    function el(tag, attrs){ const d=document.createElement(tag); if(attrs) Object.assign(d, attrs); return d }
+// render products
+const grid=$('#products-grid');
+function renderProducts(list){
+  grid.innerHTML='';
+  list.forEach(p=>{
+    const el=document.createElement('article');
+    el.className='product-card';
+    el.innerHTML=`
+      <img src="${p.imgs[0]}" alt="${p.name}">
+      <div class="p-title">${p.name}</div>
+      <div class="p-desc">${p.desc}</div>
+      <div class="p-price">${p.priceText}</div>
+      <div style="display:flex;gap:6px;padding:0 12px 12px;">
+        <button class="btn ghost" data-act="details">Details</button>
+        <button class="btn primary" data-act="add">Add</button>
+      </div>`;
+    el.querySelector('[data-act="details"]').onclick=(e)=>{e.stopPropagation();showDetails(p);};
+    el.querySelector('[data-act="add"]').onclick=(e)=>{e.stopPropagation();addToCart(p);showToast(`${p.name} added!`);};
+    el.onclick=()=>showDetails(p);
+    grid.appendChild(el);
+  });
+}
 
-    // progress bar
-    document.addEventListener('scroll', ()=>{
-      const s = document.documentElement;
-      const percent = (s.scrollTop) / (s.scrollHeight - s.clientHeight) * 100 || 0;
-      document.getElementById('progress').style.width = percent + '%';
-    }, {passive:true});
+// render preorders with modal
+const preList=$('#pre-list');
+function renderPreorders(){
+  preList.innerHTML='';
+  preorders.forEach(p=>{
+    const el=document.createElement('article');
+    el.className='product-card';
+    el.innerHTML=`
+      <img src="${p.imgs[0]}" alt="${p.title}">
+      <div class="p-title">${p.title}</div>
+      <div class="p-desc">ETA: ${p.eta}<br>${p.note}</div>
+      <div style="display:flex;gap:6px;padding:0 12px 12px;">
+        <button class="btn ghost" data-act="details">Details</button>
+        <button class="btn primary" data-act="preorder">Pre-order</button>
+      </div>`;
+    el.querySelector('[data-act="details"]').onclick=(e)=>{e.stopPropagation();showPreorderDetails(p);};
+    el.querySelector('[data-act="preorder"]').onclick=(e)=>{e.stopPropagation();redirectToMessenger(`I want to pre-order: ${p.title} (ETA: ${p.eta})`);};
+    el.onclick=()=>showPreorderDetails(p);
+    preList.appendChild(el);
+  });
+}
 
-    // render products grid
-    const grid = document.getElementById('products-grid');
-    function renderProducts(list){
-      grid.innerHTML = '';
-      if(!list.length){ document.getElementById('noResults').style.display='block'; return; }
-      document.getElementById('noResults').style.display='none';
-      list.forEach(p=>{
-        const card = document.createElement('article');
-        card.className = 'product-card';
-        card.setAttribute('role','listitem');
-        const imgSrc = p.imgs[0] || '';
-        card.innerHTML = `
-          <div class="thumb" aria-hidden="true"><img loading="lazy" src="${imgSrc}" alt="${p.name}" onerror="this.style.opacity='.14';this.src='';"></div>
-          <div class="p-title">${p.name}</div>
-          <div class="p-desc">${p.desc}</div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-            <div class="p-price">${p.priceText}</div>
-            <div class="card-actions">
-              <button class="btn ghost" data-id="${p.id}" data-action="details" aria-label="View details of ${p.name}">Details</button>
-              <button class="btn primary" data-id="${p.id}" data-action="add" aria-label="Add ${p.name} to cart">Add</button>
-            </div>
-          </div>
-        `;
+// modal functions
+const modal=$('#modal');
+const modalImage=$('#modalImage');
+const modalThumbs=$('#modalThumbs');
+const modalTitle=$('#modalTitle');
+const modalDesc=$('#modalDesc');
+const modalPrice=$('#modalPrice');
+const modalAddBtn=$('#modalAddBtn');
+let currentProd=null;
 
-        // interactions
-        card.querySelectorAll('[data-action]').forEach(b=> b.addEventListener('click', (ev)=>{
-          ev.stopPropagation();
-          const id = ev.currentTarget.getAttribute('data-id');
-          const action = ev.currentTarget.getAttribute('data-action');
-          const prod = products.find(x=>x.id===id);
-          if(action==='add'){ addToCart(prod); showToast(`${prod.name} added to cart`); openCart(); }
-          if(action==='details'){ showDetails(prod); }
-        }));
+function showDetails(prod){
+  currentProd=prod;
+  modalTitle.textContent=prod.name;
+  modalDesc.textContent=prod.desc;
+  modalPrice.textContent=prod.priceText;
+  loadModalImages(prod.imgs);
+  modalAddBtn.style.display='inline-flex';
+  openModal();
+}
+function showPreorderDetails(pre){
+  currentProd=null;
+  modalTitle.textContent=pre.title;
+  modalDesc.textContent=`ETA: ${pre.eta}\n${pre.note}`;
+  modalPrice.textContent='Pre-order only';
+  loadModalImages(pre.imgs);
+  modalAddBtn.style.display='none';
+  openModal();
+}
+function loadModalImages(imgs){
+  modalThumbs.innerHTML='';
+  modalImage.src=imgs[0];
+  imgs.forEach((src,i)=>{
+    const t=document.createElement('img');
+    t.src=src;
+    if(i===0)t.classList.add('active');
+    t.onclick=()=>{
+      modalImage.src=src;
+      modalThumbs.querySelectorAll('img').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+    };
+    modalThumbs.appendChild(t);
+  });
+}
+function openModal(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');}
+function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');}
+$('#modalCloseBtn').onclick=closeModal;
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+modalAddBtn.onclick=()=>{if(currentProd){addToCart(currentProd);showToast(`${currentProd.name} added!`);}};
 
-        // clicking whole card opens details
-        card.addEventListener('click', ()=> showDetails(p));
+// cart, messenger, search
+let cart=[];
+function addToCart(p){cart.push(p);}
+function redirectToMessenger(msg){
+  const url=`${MESSENGER_URL}?text=${encodeURIComponent(msg)}`;
+  window.open(url,'_blank');
+}
+$('#checkoutBtn').onclick=()=>{
+  if(!cart.length)return showToast('Cart empty!');
+  const text='Hello! I want to order:\n'+cart.map(x=>`- ${x.name} (${x.priceText})`).join('\n');
+  redirectToMessenger(text);
+};
+$('#searchBox').oninput=(e)=>{
+  const val=e.target.value.toLowerCase();
+  const filtered=products.filter(p=>p.name.toLowerCase().includes(val));
+  renderProducts(filtered);
+};
 
-        grid.appendChild(card);
-      });
-    }
+// toast
+function showToast(msg){
+  const t=$('#toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
 
-    // render preorders
-    const preList = document.getElementById('pre-list');
-    function renderPreorders(){
-      preList.innerHTML='';
-      preorders.forEach(p=>{
-        const card = document.createElement('article'); card.className='product-card';
-        const img = (p.imgs && p.imgs[0]) || '';
-        card.innerHTML = `
-          <div class="thumb" aria-hidden="true"><img loading="lazy" src="${img}" alt="${p.title}" onerror="this.style.opacity='.14';this.src='';"></div>
-          <div class="p-title">${p.title}</div>
-          <div class="p-desc">ETA: ${p.eta}<br>${p.note}</div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-            <div style="color:var(--muted);font-weight:700">Pre-order</div>
-            <div class="card-actions">
-              <button class="btn ghost" data-id="${p.id}" data-action="pre-details">Details</button>
-              <button class="btn primary" data-id="${p.id}" data-action="pre-order">Pre-order</button>
-            </div>
-          </div>
-        `;
-        card.querySelectorAll('[data-action]').forEach(b=> b.addEventListener('click', (ev)=>{
-          ev.stopPropagation();
-          const id = ev.currentTarget.getAttribute('data-id'); const action = ev.currentTarget.getAttribute('data-action');
-          if(action==='pre-order'){ const pre = preorders.find(x=>x.id===id); const msg = `I want to pre-order: ${pre.title} (ETA: ${pre.eta})\\nNote: ${pre.note}`; redirectToMessenger(msg); }
-          if(action==='pre-details'){ const pre = preorders.find(x=>x.id===id); alert(`Title: ${pre.title}\\nETA: ${pre.eta}\\n${pre.note}`); }
-        }));
-        preList.appendChild(card);
-      });
-    }
-
-    // details modal
-    const modalWrap = $('#modal');
-    const modalImage = $('#modalImage');
-    const modalThumbs = $('#modalThumbs');
-    const modalTitle = $('#modalTitle');
-    const modalDesc = $('#modalDesc');
-    const modalPrice = $('#modalPrice');
-    const modalAddBtn = $('#modalAddBtn');
-    const modalCloseBtn = $('#modalCloseBtn');
-    let modalCurrentProd = null;
-    let modalCurrentImgIndex = 0;
-
-    function showDetails(prod){
-      modalCurrentProd = prod;
-      modalCurrentImgIndex = 0;
-      modalTitle.textContent = prod.name;
-      modalDesc.textContent = prod.desc;
-      modalPrice.textContent = prod.priceText;
-      modalImage.src = prod.imgs[0] || '';
-      modalImage.alt = prod.name;
-
-      modalThumbs.innerHTML = '';
-      (prod.imgs || []).forEach((src, i)=>{
-        const t = document.createElement('img');
-        t.src = src; t.alt = prod.name + ' ' + (i+1);
-        t.addEventListener('error', ()=>{ t.style.opacity = '.16'; });
-        t.addEventListener('click', ()=> {
-          modalCurrentImgIndex = i;
-          modalImage.src = src;
-          modalThumbs.querySelectorAll('img').forEach(x=>x.classList.remove('active'));
-          t.classList.add('active');
-        });
-        if(i===0) t.classList.add('active');
-        modalThumbs.appendChild(t);
-      });
-
-      modalWrap.classList.add('open');
-      modalWrap.setAttribute('aria-hidden', 'false');
-      // focus handling
-      modalCloseBtn.focus();
-    }
-    modalCloseBtn.addEventListener('click', closeModal);
-    modalWrap.addEventListener('click', (e)=>{ if(e.target === modalWrap) closeModal(); });
-    function closeModal(){
-      modalWrap.classList.remove('open');
-      modalWrap.setAttribute('aria-hidden', 'true');
-      modalCurrentProd = null;
-    }
-    modalAddBtn.addEventListener('click', ()=>{ if(modalCurrentProd){ addToCart(modalCurrentProd); showToast(`${modalCurrentProd.name} added to cart`); } });
-
-    // search & filters
-    const searchInput = $('#search'); const catSelect = $('#categoryFilter'); const sortSelect = $('#sortBy');
-    function filterAndRender(){
-      let q = (searchInput.value||'').trim().toLowerCase(); let cat = catSelect.value;
-      let list = products.filter(p=>{
-        const matchQ = q ? (p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)) : true;
-        const matchCat = cat ? (p.category === cat) : true;
-        return matchQ && matchCat;
-      });
-      const sort = sortSelect.value;
-      if(sort==='price-asc') list.sort((a,b)=>a.price-b.price);
-      if(sort==='price-desc') list.sort((a,b)=>b.price-a.price);
-      if(sort==='name-asc') list.sort((a,b)=>a.name.localeCompare(b.name));
-      renderProducts(list);
-    }
-    searchInput.addEventListener('input', throttle(filterAndRender, 160));
-    catSelect.addEventListener('change', filterAndRender);
-    sortSelect.addEventListener('change', filterAndRender);
-
-    // localStorage cart
-    function getCart(){ try{return JSON.parse(localStorage.getItem('oo_cart')||'[]')}catch(e){return []} }
-    function saveCart(c){ localStorage.setItem('oo_cart', JSON.stringify(c)); updateCartUI(); }
-    function addToCart(item){ if(!item) return; const cart=getCart(); const found=cart.find(i=>i.id===item.id); if(found) found.qty = (found.qty||1)+1; else cart.push({id:item.id,name:item.name,price:item.price,priceText:item.priceText,qty:1,img:item.imgs[0]||''}); saveCart(cart); }
-    function clearCart(){ localStorage.removeItem('oo_cart'); updateCartUI(); showToast('Cart cleared'); }
-
-    function updateCartUI(){ const cart = getCart(); const count = cart.reduce((s,i)=>s+i.qty,0); $('#cartCount').textContent = count; $('#cartCountLabel').textContent = `${count} item${count===1?'':'s'}`; renderCartItems(); }
-
-    function renderCartItems(){
-      const container = document.getElementById('cartItems'); const cart=getCart(); container.innerHTML='';
-      if(!cart.length){ container.innerHTML = '<div style="color:var(--muted)">Cart is empty</div>'; document.getElementById('cartTotal').textContent='0 tk'; return; }
-      cart.forEach(item=>{
-        const row = document.createElement('div'); row.className='cart-item';
-        row.innerHTML = `
-          <img src="${item.img}" alt="${item.name}" onerror="this.style.opacity='.16';this.src='';">
-          <div class="meta">
-            <strong>${item.name}</strong>
-            <div class="small-muted">${item.priceText} × ${item.qty}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <button class="btn ghost icon" data-id="${item.id}" data-action="dec">–</button>
-            <button class="btn ghost icon" data-id="${item.id}" data-action="inc">+</button>
-            <button class="btn ghost icon" data-id="${item.id}" data-action="rm">✕</button>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-      const total = cart.reduce((s,i)=>s + (i.price * i.qty), 0);
-      document.getElementById('cartTotal').textContent = `${total} tk`;
-
-      // wire up controls
-      container.querySelectorAll('[data-action]').forEach(btn=>{
-        btn.addEventListener('click', (ev)=>{
-          const id = btn.getAttribute('data-id'); const action = btn.getAttribute('data-action');
-          if(action==='dec') decreaseQty(id);
-          if(action==='inc') increaseQty(id);
-          if(action==='rm') removeItem(id);
-        });
-      });
-    }
-
-    function decreaseQty(id){ const cart=getCart(); const it=cart.find(i=>i.id===id); if(!it) return; it.qty--; if(it.qty<=0) cart.splice(cart.findIndex(x=>x.id===id),1); saveCart(cart); showToast('Quantity updated'); }
-    function increaseQty(id){ const cart=getCart(); const it=cart.find(i=>i.id===id); if(!it) return; it.qty++; saveCart(cart); showToast('Quantity updated'); }
-    function removeItem(id){ const cart=getCart(); const idx=cart.findIndex(i=>i.id===id); if(idx>=0) cart.splice(idx,1); saveCart(cart); showToast('Item removed'); }
-
-    // cart popup controls
-    const cartFab = $('#cartFab'); const cartPopup = $('#cartPopup'); const closeCart = $('#closeCart');
-    cartFab.addEventListener('click', ()=>{ cartPopup.classList.toggle('open'); cartPopup.setAttribute('aria-hidden', !cartPopup.classList.contains('open')); updateCartUI(); });
-    $('#openCartTop').addEventListener('click', ()=>{ openCart(); });
-    closeCart.addEventListener('click', ()=>{ cartPopup.classList.remove('open'); cartPopup.setAttribute('aria-hidden','true'); });
-    function openCart(){ cartPopup.classList.add('open'); cartPopup.setAttribute('aria-hidden','false'); updateCartUI(); }
-
-    $('#clearCartBtn2').addEventListener('click', ()=>{ if(confirm('Clear cart?')) clearCart(); });
-
-    // checkout -> messenger with prefilled message
-    $('#checkoutBtn').addEventListener('click', ()=>{
-      const cart = getCart();
-      if(!cart.length){ alert('Your cart is empty!'); return; }
-
-      // build message lines carefully (digit-by-digit arithmetic avoided by using integer math)
-      let messageLines = ['Hi Otaku Oasis! I would like to order the following:',''];
-      let total = 0;
-      cart.forEach(item=>{
-        const line = `• ${item.name} — ${item.priceText} × ${item.qty}`;
-        messageLines.push(line);
-        // compute total
-        total += (Number(item.price) * Number(item.qty));
-      });
-      messageLines.push('');
-      messageLines.push(`Total: Tk. ${total}`);
-      messageLines.push('');
-      messageLines.push('Pickup/Contact: (please add your contact details here)');
-
-      const encoded = encodeURIComponent(messageLines.join('\\n'));
-      const messengerLink = `${MESSENGER_URL}?text=${encoded}`;
-      // prefer open in new tab for mobile/desktop
-      window.open(messengerLink, '_blank');
-    });
-
-    function redirectToMessenger(message){ const url = MESSENGER_URL + '?text=' + encodeURIComponent(message); window.open(url, '_blank'); }
-
-    // quick helpers
-    function throttle(fn, wait){ let t=0; return function(...a){ const now=Date.now(); if(now - t > wait){ t=now; fn.apply(this,a); t=now; } }; }
-
-    // toast
-    const toastEl = $('#toast'); let toastTimer = null;
-    function showToast(msg, ms = 1800){
-      toastEl.textContent = msg;
-      toastEl.classList.add('show');
-      if(toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(()=>{ toastEl.classList.remove('show'); }, ms);
-    }
-
-    // initial render & misc
-    document.getElementById('year').textContent = new Date().getFullYear();
-    filterAndRender(); renderPreorders(); updateCartUI();
-
-    // keyboard bindings
-    document.addEventListener('keydown', (e)=>{ if(e.altKey && e.key.toLowerCase()==='s'){ e.preventDefault(); $('#search').focus(); } if(e.key==='Escape'){ closeModal(); } });
-
-    // small responsive/touch improvements
-    window.addEventListener('load', ()=>{ observeReveals(); });
-
-    function observeReveals(){
-      const els = document.querySelectorAll('.product-card, .card-hero, .pre-card');
-      els.forEach((el,i)=>{ el.style.opacity=0; el.style.transform='translateY(8px)'; setTimeout(()=>{ el.style.transition='opacity .6s var(--ease), transform .6s var(--ease)'; el.style.opacity=1; el.style.transform='translateY(0)'; }, i*70); });
-    }
-
-    // shuffle products occasionally — but less frequently
-    function shuffleArray(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
-    setInterval(()=>{ shuffleArray(products); filterAndRender(); }, 60000);
-
-    // accessibility: highlight active nav on scroll (basic)
-    const sections = ['home','shop','preorders','about','contact'].map(id=>document.getElementById(id));
-    window.addEventListener('scroll', throttle(()=>{
-      const y = window.scrollY + 120;
-      let activeId = '';
-      sections.forEach(s => { if(s && s.offsetTop <= y) activeId = s.id; });
-      $$('.nav-link').forEach(a=> a.classList.toggle('active', a.getAttribute('href') === '#' + activeId));
-    }, 120));
-
-    // small improvement: keyboard focus for cart open
-    $('#openCartTop').addEventListener('keydown', (e)=>{ if(e.key==='Enter') openCart(); });
-
-    // small safe-guards: ensure images don't break layout
-    window.addEventListener('error', (e)=>{ if(e.target && e.target.tagName === 'IMG'){ e.target.style.opacity = '.14'; } }, true);
-
-    // End of script
-  </script>
+// init
+renderProducts(products);
+renderPreorders();
+</script>
 </body>
 </html>
