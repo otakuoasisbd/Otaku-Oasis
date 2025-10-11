@@ -255,6 +255,7 @@
               <option value="price-desc">Price ↓</option>
               <option value="name-asc">Name A–Z</option>
             </select>
+            <button id="shuffleBtn" class="btn ghost" title="Shuffle products">Shuffle</button>
           </div>
         </div>
       </div>
@@ -285,7 +286,7 @@
 
     <section class="section reveal" id="preorders" aria-labelledby="preorders-title">
       <h3 id="preorders-title" style="color:var(--accent2);margin:6px 0 14px">Pre-orders</h3>
-      <div id="pre-list" style="display:grid;gap:12px"></div>
+      <div class="grid" id="pre-list" role="list" aria-live="polite"></div>
     </section>
 
     <section class="section reveal" id="about" aria-labelledby="about-title">
@@ -297,7 +298,7 @@
         </div>
         <aside class="contact-card" style="padding:14px;border-radius:12px;background:var(--card)">
           <h4 style="margin-top:0;color:var(--accent2)">Contact & Hours</h4>
-          <p style="color:var(--muted)">Email: <a href="mailto:otakuoasisbd@gmail.com" style="color:var(--muted);text-decoration:underline">otakuoasisbd@gmail.com</a></p>
+          <p style="color:var(--muted)">Email: <a href="mailto:techoasis0cloud@gmail.com" style="color:var(--muted);text-decoration:underline">techoasis0cloud@gmail.com</a></p>
           <p style="color:var(--muted)">Phone: </p>
           <p style="color:var(--muted)">Pickup: New Elephant Road</p>
         </aside>
@@ -306,32 +307,9 @@
 
     <section class="section reveal" id="contact" aria-labelledby="contact-title">
       <h3 id="contact-title" style="color:var(--accent2);margin:6px 0 14px">Contact</h3>
-      <div class="two-col" style="display:grid;grid-template-columns:1fr 320px;gap:16px">
-        <div>
-          <p style="color:var(--muted)">Send us a message — we usually reply within 24 hours.</p>
-          <form id="contactForm" onsubmit="event.preventDefault(); contactSubmit()" style="max-width:640px;display:grid;gap:8px">
-            <label class="muted">Your name</label>
-            <input id="cname" placeholder="Your name" required>
-            <label class="muted">Your email</label>
-            <input id="cemail" type="email" placeholder="you@example.com" required>
-            <label class="muted">Message</label>
-            <textarea id="cmsg" rows="5" placeholder="I want to ask about..." required></textarea>
-            <div style="margin-top:10px;display:flex;gap:8px">
-              <button class="btn primary" type="submit">Send</button>
-              <a class="btn ghost" href="mailto:otakuoasisbd@gmail.com">Email Directly</a>
-            </div>
-            <p id="contact-note" style="color:var(--muted);font-size:13px;margin-top:8px"></p>
-          </form>
-        </div>
-        <aside class="contact-card" style="padding:14px;border-radius:12px;background:var(--card)">
-          <h4 style="margin-top:0">Contact us anywhere</h4>
-          <p style="color:var(--muted)">
-            <a href="https://www.facebook.com/otakuoasisbd" target="_blank" style="color:var(--muted); text-decoration:underline;">Facebook</a>
-            &nbsp;•&nbsp;
-            <a href="https://www.instagram.com/theotakuoasisbd" target="_blank" style="color:var(--muted); text-decoration:underline;">Instagram</a>
-            <a href="https://www.facebook.com/messages/t/737804756085179" target="_blank" style="color:var(--muted); text-decoration:underline;">Messenger</a>
-          </p>
-        </aside>
+      <div style="max-width:640px">
+        <p style="color:var(--muted)">For enquiries, please email us directly:</p>
+        <p><a href="mailto:techoasis0cloud@gmail.com" class="btn primary" style="text-decoration:none">Email: techoasis0cloud@gmail.com</a></p>
       </div>
     </section>
   </main>
@@ -356,9 +334,9 @@
       <div style="font-size:13px;color:var(--muted)">Phone: +8801</div>
       <a class="btn primary" href="https://www.facebook.com/messages/t/737804756085179" target="_blank" style="padding:8px 10px;font-weight:700">Chat</a>
     </div>
-    <p style="margin-top:10px;color:var(--muted);font-size:13px">Email: <a href="mailto:otakuoasisbd@gmail.com" style="color:var(--muted);text-decoration:underline">otakuoasisbd@gmail.com</a></p>
+    <p style="margin-top:10px;color:var(--muted);font-size:13px">Email: <a href="mailto:techoasis0cloud@gmail.com" style="color:var(--muted);text-decoration:underline">techoasis0cloud@gmail.com</a></p>
     <div style="margin-top:8px;display:flex;gap:8px">
-      <a class="btn ghost" href="#contact">Contact Form</a>
+      <a class="btn ghost" href="#contact">Contact</a>
       <a class="btn ghost" href="#shop">Shop</a>
     </div>
   </div>
@@ -423,9 +401,12 @@
       {id:'chibi2', name:'Chibi Nezuko', priceText:'500tk', price:500, imgs:['assets/nezuko.small.jpg'], desc:'Chibi cute Nezuko figure Size:8cm from Demon Slayer.', category:'Demon Slayer'}
     ];
 
+    /* Pre-orders preserved (titles and notes) but displayed with card layout like shop.
+       Add images/description fields (placeholder images included — replace if you have better files).
+    */
     const preorders = [
-      {title:'Sailor Moon - Limited', eta:'2026-01', note:'Reserve now, limited run.'},
-      {title:'Jujutsu Kaisen Set', eta:'2025-12', note:'Bundle pre-order discount.'}
+      {id:'pre_sailor', title:'Sailor Moon - Limited', eta:'2026-01', note:'Reserve now, limited run.', imgs:['assets/pre_sailor.jpg'], desc:'Sailor Moon limited edition — reserve your spot. ETA: 2026-01.'},
+      {id:'pre_jjk', title:'Jujutsu Kaisen Set', eta:'2025-12', note:'Bundle pre-order discount.', imgs:['assets/pre_jjk.jpg'], desc:'Jujutsu Kaisen character set — pre-order bundle with discount. ETA: 2025-12.'}
     ];
 
     const MESSENGER_BASE = 'https://www.facebook.com/messages/t/737804756085179';
@@ -439,6 +420,31 @@
 
     /* ======= render products (cards) ======= */
     const grid = document.getElementById('products-grid');
+    function productCardHTML(p, isPre=false){
+      const badgeHTML = (p.price && p.price < 700) ? `<div class="badge">Hot</div>` : '';
+      const priceLine = p.priceText ? `<div class="price">${p.priceText}</div>` : (isPre ? `<div class="price muted">Pre-order</div>` : '');
+      const imgSrc = (p.imgs && p.imgs.length) ? p.imgs[0] : 'assets/placeholder.png';
+      const desc = p.desc || (p.note || '');
+      // if pre-order, show Pre-order button; if normal product, show Buy and Details
+      const actions = isPre
+        ? `<div class="btn-row">
+             <button class="btn primary" data-id="${p.id}" data-action="preorder">Pre-order</button>
+             <button class="btn ghost" data-id="${p.id}" data-action="details">Details</button>
+           </div>`
+        : `<div class="btn-row">
+             <button class="btn primary" data-id="${p.id}" data-action="addCart">Buy</button>
+             <button class="btn ghost" data-id="${p.id}" data-action="details">Details</button>
+           </div>`;
+      return `
+        ${badgeHTML}
+        <div class="thumb"><img loading="lazy" src="${imgSrc}" alt="${p.name || p.title}"></div>
+        <h4>${p.name || p.title}</h4>
+        ${priceLine}
+        <div class="desc">${desc}</div>
+        ${actions}
+      `;
+    }
+
     function renderProducts(list){
       grid.innerHTML='';
       if(!list.length){
@@ -450,19 +456,9 @@
         const card = document.createElement('article');
         card.className='card reveal';
         card.setAttribute('role','listitem');
-        const badgeHTML = (p.price < 700) ? `<div class="badge">Hot</div>` : '';
-        card.innerHTML = `
-          ${badgeHTML}
-          <div class="thumb"><img loading="lazy" src="${p.imgs[0]}" alt="${p.name}"></div>
-          <h4>${p.name}</h4>
-          <div class="price">${p.priceText}</div>
-          <div class="desc">${p.desc}</div>
-          <div class="btn-row">
-            <button class="btn primary" data-id="${p.id}" data-action="addCart">Buy</button>
-            <button class="btn ghost" data-id="${p.id}" data-action="details">Details</button>
-          </div>
-        `;
-        // tilt effect
+        card.innerHTML = productCardHTML(p, false);
+
+        // tilt effect handlers
         const thumb = card.querySelector('.thumb');
         const img = thumb.querySelector('img');
         card.addEventListener('mousemove', (ev)=>{
@@ -489,7 +485,6 @@
             if(action === 'addCart'){
               addToCart(target);
               humConfetti();
-              // small visual feedback
               openCartSidebar();
             } else if(action === 'details'){
               showDetails(id);
@@ -499,10 +494,45 @@
 
         // clicking image opens details
         img.addEventListener('click', ()=> showDetails(p.id));
-        // graceful fallback if image missing
-        img.addEventListener('error', ()=> { img.style.opacity = '.18'; img.style.transform='scale(.98)'; img.alt = p.name; });
+        img.addEventListener('error', ()=> { img.style.opacity = '.18'; img.style.transform='scale(.98)'; img.alt = p.name || p.title; });
 
         grid.appendChild(card);
+      });
+      observeReveals();
+    }
+
+    /* ======= render preorders as cards (same style) ======= */
+    const preListEl = document.getElementById('pre-list');
+    function renderPreorders(list){
+      preListEl.innerHTML = '';
+      list.forEach(p=>{
+        const card = document.createElement('article');
+        card.className='card reveal';
+        card.setAttribute('role','listitem');
+        card.innerHTML = productCardHTML(p, true);
+
+        const thumbImg = card.querySelector('.thumb img');
+        thumbImg.addEventListener('click', ()=> showPreDetails(p.id));
+        thumbImg.addEventListener('error', ()=> { thumbImg.style.opacity = '.18'; });
+
+        // pre-order action/button
+        card.querySelectorAll('[data-action]').forEach(btn=>{
+          btn.addEventListener('click', (ev)=>{
+            ev.stopPropagation();
+            const action = ev.currentTarget.getAttribute('data-action');
+            const id = ev.currentTarget.getAttribute('data-id');
+            const target = preorders.find(x=>x.id===id);
+            if(action === 'preorder'){
+              // create preorder message and redirect
+              const message = `I want to pre-order: ${target.title}\nETA: ${target.eta}\nNote: ${target.note || ''}\n\nPlease confirm availability and payment/pickup details.`;
+              copyThenOpenMessenger(message);
+            } else if(action === 'details'){
+              showPreDetails(id);
+            }
+          });
+        });
+
+        preListEl.appendChild(card);
       });
       observeReveals();
     }
@@ -511,12 +541,13 @@
     const searchInput = e('#search');
     const catSelect = e('#categoryFilter');
     const sortSelect = e('#sortBy');
+    const shuffleBtn = e('#shuffleBtn');
 
     function filterAndRender(){
       let q = (searchInput.value||'').trim().toLowerCase();
       let cat = catSelect.value;
       let list = products.filter(p=>{
-        const matchQ = q ? (p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)) : true;
+        const matchQ = q ? (p.name.toLowerCase().includes(q) || (p.desc||'').toLowerCase().includes(q)) : true;
         const matchCat = cat ? (p.category === cat) : true;
         return matchQ && matchCat;
       });
@@ -530,30 +561,19 @@
     catSelect.addEventListener('change', filterAndRender);
     sortSelect.addEventListener('change', filterAndRender);
 
-    /* ======= preorders render ======= */
-    const preList = document.getElementById('pre-list');
-    preorders.forEach(p=>{
-      const div=document.createElement('div'); div.className='pre-card reveal';
-      div.style.padding='12px'; div.style.background='linear-gradient(180deg, rgba(255,255,255,0.015), transparent)';
-      div.style.borderRadius='10px'; div.style.border='1px solid rgba(255,255,255,0.03)'; div.style.flex='1'; div.style.minWidth='240px';
-      div.innerHTML=`<strong style="color:var(--accent1)">${p.title}</strong><div style='color:var(--muted);font-size:13px'>ETA: ${p.eta}</div><div style='margin-top:8px;color:var(--muted)'>${p.note}</div><div style='margin-top:8px'><a class='btn primary' href='mailto:otakuoasisbd@gmail.com?subject=Preorder%20${encodeURIComponent(p.title)}'>Pre-order</a></div>`;
-      preList.appendChild(div);
+    shuffleBtn.addEventListener('click', ()=> {
+      shuffleArray(products);
+      filterAndRender();
     });
+
+    /* ======= preorders render init ======= */
+    renderPreorders(preorders);
 
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    /* ======= contact form ======= */
-    function contactSubmit(){
-      const name=document.getElementById('cname').value;
-      const email=document.getElementById('cemail').value;
-      const msg=document.getElementById('cmsg').value;
-      const subject=encodeURIComponent('Message from '+name);
-      const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\n'+msg);
-      window.location.href=`mailto:otakuoasisbd@gmail.com?subject=${subject}&body=${body}`;
-      document.getElementById('contact-note').textContent='Opening your email app to send the message...';
-    }
+    /* ======= contact: removed send form (email only) ======= */
 
-    /* ======= modal quick-view ======= */
+    /* ======= modal quick-view for normal products ======= */
     let currentImages=[], currentIndex=0, currentProduct=null, modalAutoplayTimer=null;
     function showDetails(id){
       const p = products.find(x=>x.id===id);
@@ -564,21 +584,44 @@
       updateModal();
       openModal();
     }
-    function updateModal(){
+    function showPreDetails(id){
+      const p = preorders.find(x=>x.id===id);
+      if(!p) return;
+      // treat preorders similarly but with no "add to cart" (preorder action is messenger)
+      currentProduct = { id: p.id, name: p.title, priceText: p.eta ? ('ETA: '+p.eta) : 'Pre-order', imgs: p.imgs || [], desc: p.desc || p.note };
+      currentImages = currentProduct.imgs.slice();
+      currentIndex=0;
+      updateModal(true);
+      openModal();
+    }
+
+    function updateModal(isPre=false){
       document.getElementById('modal-img').src = currentImages[currentIndex] || '';
       document.getElementById('modal-img').alt = currentProduct.name;
-      document.getElementById('modal-title').textContent = currentProduct.name + ' — ' + currentProduct.priceText;
-      document.getElementById('modal-caption').textContent = currentProduct.desc;
+      document.getElementById('modal-title').textContent = currentProduct.name + (currentProduct.priceText ? ' — ' + currentProduct.priceText : '');
+      document.getElementById('modal-caption').textContent = currentProduct.desc || '';
       document.getElementById('modalAddToCart').onclick = ()=> {
-        addToCart(currentProduct);
-        humConfetti();
+        if(isPre){
+          // pre-order: redirect to messenger with preorder message
+          const pre = preorders.find(x=>x.id === currentProduct.id);
+          const msg = `I want to pre-order: ${pre.title}\nETA: ${pre.eta}\nNote: ${pre.note || ''}\n\nPlease confirm availability and payment/pickup details.`;
+          copyThenOpenMessenger(msg);
+        } else {
+          addToCart(currentProduct);
+          humConfetti();
+          openCartSidebar();
+        }
       };
       document.getElementById('modalBuyNow').onclick = ()=> {
-        const msg = createSingleProductMessage(currentProduct, 1);
-        redirectToMessenger(msg);
+        if(isPre){
+          const pre = preorders.find(x=>x.id === currentProduct.id);
+          const msg = `I want to pre-order: ${pre.title}\nETA: ${pre.eta}\nNote: ${pre.note || ''}\n\nPlease confirm availability and payment/pickup details.`;
+          copyThenOpenMessenger(msg);
+        } else {
+          const msg = createSingleProductMessage(currentProduct, 1);
+          copyThenOpenMessenger(msg);
+        }
       };
-      const waLink = `https://wa.me/8801558056703?text=${encodeURIComponent('Hi, I am interested in '+currentProduct.name)}`;
-      document.getElementById('chatLink') && (document.getElementById('chatLink').href = waLink);
 
       // thumbnails
       const strip = document.getElementById('modal-thumbs');
@@ -589,7 +632,7 @@
         im.alt = currentProduct.name + ' ' + (i+1);
         if(i === currentIndex) im.classList.add('active');
         im.addEventListener('click', ()=> {
-          currentIndex = i; updateModal();
+          currentIndex = i; updateModal(isPre);
         });
         strip.appendChild(im);
       });
@@ -602,7 +645,6 @@
       modalAutoplayStart();
       window.addEventListener('keydown', modalKeyHandler);
       document.getElementById('modal-img').addEventListener('click', modalNext);
-      // focus trap: focus modal card quickly
       setTimeout(()=> document.querySelector('.modal-card').focus(), 60);
     }
     function closeModal(){
@@ -671,9 +713,10 @@
     function getCart(){ try { return JSON.parse(localStorage.getItem('oo_cart')||'[]'); } catch(e){ return []; } }
     function saveCart(c){ localStorage.setItem('oo_cart', JSON.stringify(c)); updateCartUI(); }
     function addToCart(item){
+      if(!item || !item.id) return;
       const cart = getCart();
       const found = cart.find(i=>i.id===item.id);
-      if(found) found.qty = (found.qty||1) + 1; else cart.push({id:item.id, name:item.name, price:item.price, priceText:item.priceText, qty:1});
+      if(found) found.qty = (found.qty||1) + 1; else cart.push({id:item.id, name:item.name, price:item.price||0, priceText:item.priceText||'', qty:1});
       saveCart(cart);
     }
     function clearCart(){ localStorage.removeItem('oo_cart'); updateCartUI(); }
@@ -731,19 +774,76 @@
     document.getElementById('viewCartBtn').addEventListener('click', ()=> { openCartSidebar(); });
     document.getElementById('clearCartBtn').addEventListener('click', ()=> { clearCart(); });
 
-    // Checkout: redirect to Messenger with full cart details
-    document.getElementById('checkoutSidebarBtn').addEventListener('click', ()=>{
+    // Checkout: redirect to Messenger with full cart details (copy message to clipboard first)
+    document.getElementById('checkoutSidebarBtn').addEventListener('click', async ()=>{
       const cart = getCart();
       if(!cart.length){ alert('Cart is empty'); return; }
+      const msg = createCartMessage(cart);
+      await copyThenOpenMessenger(msg);
+    });
+
+    /* ======= message creation & redirect helpers ======= */
+    function createSingleProductMessage(product, qty){
+      return `I want to buy: ${product.name} — ${product.priceText}\nCategory: ${product.category || ''}\nDetails: ${product.desc || ''}\nQuantity: ${qty}\n\nPlease confirm availability and pickup/payment instructions.`;
+    }
+    function createCartMessage(cart){
       const lines = cart.map((i, idx)=> `${idx+1}. ${i.name} — ${i.priceText} × ${i.qty}`);
       const total = cart.reduce((s,i)=>s + (i.price * i.qty), 0);
-      const msg = `I want to buy:\n${lines.join('\n')}\n\nTotal: ${total} tk\n\nPlease confirm availability and pickup/payment details.`;
-      redirectToMessenger(msg);
-    });
+      return `I want to buy:\n${lines.join('\n')}\n\nTotal: ${total} tk\n\nPlease confirm availability and pickup/payment instructions.`;
+    }
+
+    // Copy message to clipboard and open messenger window with base link
+    async function copyThenOpenMessenger(message){
+      // try copy to clipboard (best-effort, may require user gesture/secure context)
+      try {
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          await navigator.clipboard.writeText(message);
+          // small user feedback
+          showToast('Message copied to clipboard. Opening Messenger...');
+        } else {
+          // fallback using execCommand (older)
+          const ta = document.createElement('textarea');
+          ta.value = message; document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+          showToast('Message copied to clipboard. Opening Messenger...');
+        }
+      } catch(err){
+        // still proceed
+        console.warn('Could not copy to clipboard:', err);
+        showToast('Opening Messenger... (copy failed)');
+      }
+      // Open Messenger in a new tab; messenger may or may not read ?message param.
+      const url = MESSENGER_BASE + '?message=' + encodeURIComponent(message);
+      window.open(url, '_blank');
+    }
+
+    /* ======= UX helpers: simple toast ======= */
+    function showToast(text){
+      let t = document.getElementById('oo_toast');
+      if(!t){
+        t = document.createElement('div');
+        t.id='oo_toast';
+        t.style.position='fixed';
+        t.style.right='20px';
+        t.style.bottom='96px';
+        t.style.zIndex='999999';
+        t.style.padding='10px 14px';
+        t.style.borderRadius='10px';
+        t.style.background='rgba(10,10,12,0.9)';
+        t.style.color='#fff';
+        t.style.fontWeight='700';
+        document.body.appendChild(t);
+      }
+      t.textContent = text;
+      t.style.opacity = '1';
+      setTimeout(()=> { t.style.opacity = '0'; }, 2800);
+    }
 
     /* ======= small UX helpers ======= */
     function throttle(fn, wait){
-      let t=0; return function(...a){ const now=Date.now(); if(now - t > wait){ t=now; fn.apply(this,a); } };
+      let t=0; return function(...a){ const now=Date.now(); if(now - t > wait){ t=now; fn.apply(this,a); t=now; } };
     }
 
     /* ======= initial render ======= */
@@ -842,15 +942,7 @@
     }
     window.addEventListener('hashchange', setActiveNav); setActiveNav();
 
-    /* ======= initial load helpers ======= */
-    window.addEventListener('load', ()=> {
-      observeReveals();
-      // CTA animation
-      const c = document.getElementById('shopCta');
-      setInterval(()=> c.animate([{transform:'translateY(0)'},{transform:'translateY(-6px)'},{transform:'translateY(0)'}], {duration:1400, iterations:1}), 2800);
-    });
-
-    /* ======= Shuffle products every 10 seconds ======= */
+    /* ======= Shuffle products every 30 seconds (keeps filters applied) ======= */
     function shuffleArray(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -858,32 +950,13 @@
       }
       return arr;
     }
-    // Shuffle the source products array periodically and re-render (keeps filters applied)
+
     setInterval(()=> {
       shuffleArray(products);
       filterAndRender();
-    }, 30000); // 10000 ms = 10 seconds
-
-    /* ======= Message creation & redirect helpers ======= */
-    function createSingleProductMessage(product, qty){
-      return `I want to buy: ${product.name} — ${product.priceText}\nCategory: ${product.category}\nDetails: ${product.desc}\nQuantity: ${qty}\n\nPlease confirm availability and pickup/payment instructions.`;
-    }
-    function createCartMessage(cart){
-      const lines = cart.map((i, idx)=> `${idx+1}. ${i.name} — ${i.priceText} × ${i.qty}`);
-      const total = cart.reduce((s,i)=>s + (i.price * i.qty), 0);
-      return `I want to buy:\n${lines.join('\n')}\n\nTotal: ${total} tk\n\nPlease confirm availability and pickup/payment instructions.`;
-    }
-    function redirectToMessenger(message){
-      // append a message param; some environments will read it, others may not — opening new window
-      const url = MESSENGER_BASE + '?message=' + encodeURIComponent(message);
-      // open in new tab
-      window.open(url, '_blank');
-    }
-
-    // When user uses "Buy Now" from modal we already call redirectToMessenger with a single product message
+    }, 30000);
 
     /* ======= ensure existing smaller cart (if present) replaced with sidebar functions ======= */
-    // Hide older simple cart modal if present
     const oldCart = document.getElementById('cartModal');
     if(oldCart) oldCart.style.display = 'none';
 
