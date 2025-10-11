@@ -255,7 +255,6 @@
               <option value="price-desc">Price ↓</option>
               <option value="name-asc">Name A–Z</option>
             </select>
-            <button id="shuffleBtn" class="btn ghost" title="Shuffle products">Shuffle</button>
           </div>
         </div>
       </div>
@@ -286,7 +285,7 @@
 
     <section class="section reveal" id="preorders" aria-labelledby="preorders-title">
       <h3 id="preorders-title" style="color:var(--accent2);margin:6px 0 14px">Pre-orders</h3>
-      <div class="grid" id="pre-list" role="list" aria-live="polite"></div>
+      <div class="grid" id="preorders-grid" role="list" aria-live="polite"></div>
     </section>
 
     <section class="section reveal" id="about" aria-labelledby="about-title">
@@ -307,9 +306,10 @@
 
     <section class="section reveal" id="contact" aria-labelledby="contact-title">
       <h3 id="contact-title" style="color:var(--accent2);margin:6px 0 14px">Contact</h3>
-      <div style="max-width:640px">
-        <p style="color:var(--muted)">For enquiries, please email us directly:</p>
-        <p><a href="mailto:techoasis0cloud@gmail.com" class="btn primary" style="text-decoration:none">Email: techoasis0cloud@gmail.com</a></p>
+      <div style="max-width:820px;">
+        <p style="color:var(--muted)">Prefer email? Reach us directly at:</p>
+        <p><a href="mailto:techoasis0cloud@gmail.com" style="color:var(--muted);text-decoration:underline;font-weight:800">techoasis0cloud@gmail.com</a></p>
+        <p style="color:var(--muted)">Or chat via Messenger using the floating chat button.</p>
       </div>
     </section>
   </main>
@@ -342,7 +342,7 @@
   </div>
 
   <!-- Chat bubble -->
-  <button class="chat-bubble" id="chatBubble" title="Chat with us" aria-label="Open chat" onclick="window.open('https://www.facebook.com/messages/t/737804756085179','_blank')">
+  <button class="chat-bubble" id="chatBubble" title="Chat with us" aria-label="Open chat" onclick="window.open(MESSENGER_BASE,'_blank')">
     💬
   </button>
 
@@ -401,15 +401,35 @@
       {id:'chibi2', name:'Chibi Nezuko', priceText:'500tk', price:500, imgs:['assets/nezuko.small.jpg'], desc:'Chibi cute Nezuko figure Size:8cm from Demon Slayer.', category:'Demon Slayer'}
     ];
 
-    /* Pre-orders preserved (titles and notes) but displayed with card layout like shop.
-       Add images/description fields (placeholder images included — replace if you have better files).
-    */
+    /* Preorders preserved (titles/notes), now enriched with images & desc so they render like shop cards */
     const preorders = [
-      {id:'pre_sailor', title:'Sailor Moon - Limited', eta:'2026-01', note:'Reserve now, limited run.', imgs:['assets/pre_sailor.jpg'], desc:'Sailor Moon limited edition — reserve your spot. ETA: 2026-01.'},
-      {id:'pre_jjk', title:'Jujutsu Kaisen Set', eta:'2025-12', note:'Bundle pre-order discount.', imgs:['assets/pre_jjk.jpg'], desc:'Jujutsu Kaisen character set — pre-order bundle with discount. ETA: 2025-12.'}
+      {
+        id: 'pre_sailormoon',
+        title:'Sailor Moon - Limited',
+        eta:'2026-01',
+        note:'Reserve now, limited run.',
+        imgs:['assets/sailormoon1.jpg','assets/sailormoon2.jpg'],
+        desc:'Sailor Moon limited edition set. Reserve now — limited run.',
+        priceText:'TBA',
+        price:0,
+        category:'Other'
+      },
+      {
+        id: 'pre_jjk',
+        title:'Jujutsu Kaisen Set',
+        eta:'2025-12',
+        note:'Bundle pre-order discount.',
+        imgs:['assets/jjk1.jpg','assets/jjk2.jpg'],
+        desc:'Bundle set from Jujutsu Kaisen. Pre-order with bundle discount.',
+        priceText:'TBA',
+        price:0,
+        category:'Jujutsu Kaisen'
+      }
     ];
 
+    // messenger & email
     const MESSENGER_BASE = 'https://www.facebook.com/messages/t/737804756085179';
+    const CONTACT_EMAIL = 'techoasis0cloud@gmail.com';
 
     /* ======= small helpers ======= */
     function e(sel){ return document.querySelector(sel); }
@@ -420,31 +440,6 @@
 
     /* ======= render products (cards) ======= */
     const grid = document.getElementById('products-grid');
-    function productCardHTML(p, isPre=false){
-      const badgeHTML = (p.price && p.price < 700) ? `<div class="badge">Hot</div>` : '';
-      const priceLine = p.priceText ? `<div class="price">${p.priceText}</div>` : (isPre ? `<div class="price muted">Pre-order</div>` : '');
-      const imgSrc = (p.imgs && p.imgs.length) ? p.imgs[0] : 'assets/placeholder.png';
-      const desc = p.desc || (p.note || '');
-      // if pre-order, show Pre-order button; if normal product, show Buy and Details
-      const actions = isPre
-        ? `<div class="btn-row">
-             <button class="btn primary" data-id="${p.id}" data-action="preorder">Pre-order</button>
-             <button class="btn ghost" data-id="${p.id}" data-action="details">Details</button>
-           </div>`
-        : `<div class="btn-row">
-             <button class="btn primary" data-id="${p.id}" data-action="addCart">Buy</button>
-             <button class="btn ghost" data-id="${p.id}" data-action="details">Details</button>
-           </div>`;
-      return `
-        ${badgeHTML}
-        <div class="thumb"><img loading="lazy" src="${imgSrc}" alt="${p.name || p.title}"></div>
-        <h4>${p.name || p.title}</h4>
-        ${priceLine}
-        <div class="desc">${desc}</div>
-        ${actions}
-      `;
-    }
-
     function renderProducts(list){
       grid.innerHTML='';
       if(!list.length){
@@ -456,9 +451,19 @@
         const card = document.createElement('article');
         card.className='card reveal';
         card.setAttribute('role','listitem');
-        card.innerHTML = productCardHTML(p, false);
-
-        // tilt effect handlers
+        const badgeHTML = (p.price && p.price < 700) ? `<div class="badge">Hot</div>` : '';
+        card.innerHTML = `
+          ${badgeHTML}
+          <div class="thumb"><img loading="lazy" src="${p.imgs && p.imgs[0] ? p.imgs[0] : ''}" alt="${p.name || p.title || ''}"></div>
+          <h4>${p.name || p.title}</h4>
+          <div class="price">${p.priceText || p.eta || ''}</div>
+          <div class="desc">${p.desc || p.note || ''}</div>
+          <div class="btn-row">
+            <button class="btn primary" data-id="${p.id}" data-action="addCart">Buy</button>
+            <button class="btn ghost" data-id="${p.id}" data-action="details">Details</button>
+          </div>
+        `;
+        // tilt effect
         const thumb = card.querySelector('.thumb');
         const img = thumb.querySelector('img');
         card.addEventListener('mousemove', (ev)=>{
@@ -481,8 +486,10 @@
             ev.stopPropagation();
             const action = ev.currentTarget.getAttribute('data-action');
             const id = ev.currentTarget.getAttribute('data-id');
-            const target = products.find(x=>x.id===id);
+            // find in products OR preorders
+            const target = products.find(x=>x.id===id) || preorders.find(x=>x.id===id);
             if(action === 'addCart'){
+              // if pre-order has price 0 (TBA) we still add to cart but show priceText
               addToCart(target);
               humConfetti();
               openCartSidebar();
@@ -494,45 +501,73 @@
 
         // clicking image opens details
         img.addEventListener('click', ()=> showDetails(p.id));
-        img.addEventListener('error', ()=> { img.style.opacity = '.18'; img.style.transform='scale(.98)'; img.alt = p.name || p.title; });
+        // graceful fallback if image missing
+        img.addEventListener('error', ()=> { img.style.opacity = '.18'; img.style.transform='scale(.98)'; img.alt = p.name || p.title || ''; });
 
         grid.appendChild(card);
       });
       observeReveals();
     }
 
-    /* ======= render preorders as cards (same style) ======= */
-    const preListEl = document.getElementById('pre-list');
-    function renderPreorders(list){
-      preListEl.innerHTML = '';
-      list.forEach(p=>{
+    /* ======= render preorders similar to shop grid ======= */
+    const preGrid = document.getElementById('preorders-grid');
+    function renderPreorders(){
+      preGrid.innerHTML = '';
+      preorders.forEach(p=>{
         const card = document.createElement('article');
         card.className='card reveal';
         card.setAttribute('role','listitem');
-        card.innerHTML = productCardHTML(p, true);
+        const badgeHTML = `<div class="badge">Pre-order</div>`;
+        card.innerHTML = `
+          ${badgeHTML}
+          <div class="thumb"><img loading="lazy" src="${p.imgs && p.imgs[0] ? p.imgs[0] : ''}" alt="${p.title}"></div>
+          <h4>${p.title}</h4>
+          <div class="price">${p.eta}</div>
+          <div class="desc">${p.desc}<div style="color:var(--muted);font-size:12px;margin-top:6px">${p.note}</div></div>
+          <div class="btn-row">
+            <button class="btn primary" data-id="${p.id}" data-action="preorder">Pre-order</button>
+            <button class="btn ghost" data-id="${p.id}" data-action="details">Details</button>
+          </div>
+        `;
+        // tilt + handlers
+        const thumb = card.querySelector('.thumb');
+        const img = thumb.querySelector('img');
+        card.addEventListener('mousemove', (ev)=>{
+          const r = card.getBoundingClientRect();
+          const x = (ev.clientX - r.left) / r.width - 0.5;
+          const y = (ev.clientY - r.top) / r.height - 0.5;
+          const tiltX = y * -6;
+          const tiltY = x * 10;
+          card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateZ(6px)`;
+          img.style.transform = `translate(${x*8}px, ${y*6}px) scale(1.06)`;
+        });
+        card.addEventListener('mouseleave', ()=>{
+          card.style.transform = '';
+          img.style.transform = '';
+        });
 
-        const thumbImg = card.querySelector('.thumb img');
-        thumbImg.addEventListener('click', ()=> showPreDetails(p.id));
-        thumbImg.addEventListener('error', ()=> { thumbImg.style.opacity = '.18'; });
-
-        // pre-order action/button
         card.querySelectorAll('[data-action]').forEach(btn=>{
           btn.addEventListener('click', (ev)=>{
             ev.stopPropagation();
             const action = ev.currentTarget.getAttribute('data-action');
             const id = ev.currentTarget.getAttribute('data-id');
-            const target = preorders.find(x=>x.id===id);
+            const target = preorders.find(x=>x.id===id) || products.find(x=>x.id===id);
             if(action === 'preorder'){
-              // create preorder message and redirect
-              const message = `I want to pre-order: ${target.title}\nETA: ${target.eta}\nNote: ${target.note || ''}\n\nPlease confirm availability and payment/pickup details.`;
-              copyThenOpenMessenger(message);
+              // send preorder intent via messenger (copy + open)
+              const msg = `I want to pre-order: ${target.title}\nETA: ${target.eta}\nNote: ${target.note}\nPlease confirm availability and reservation steps.`;
+              copyToClipboard(msg);
+              window.open(MESSENGER_BASE + '?message=' + encodeURIComponent(msg), '_blank');
+              alert('Pre-order message copied to clipboard and Messenger opened. Paste into Messenger if needed.');
             } else if(action === 'details'){
-              showPreDetails(id);
+              showDetails(id);
             }
           });
         });
 
-        preListEl.appendChild(card);
+        img.addEventListener('click', ()=> showDetails(p.id));
+        img.addEventListener('error', ()=> { img.style.opacity = '.18'; img.style.transform='scale(.98)'; img.alt = p.title; });
+
+        preGrid.appendChild(card);
       });
       observeReveals();
     }
@@ -541,98 +576,71 @@
     const searchInput = e('#search');
     const catSelect = e('#categoryFilter');
     const sortSelect = e('#sortBy');
-    const shuffleBtn = e('#shuffleBtn');
 
     function filterAndRender(){
       let q = (searchInput.value||'').trim().toLowerCase();
       let cat = catSelect.value;
       let list = products.filter(p=>{
-        const matchQ = q ? (p.name.toLowerCase().includes(q) || (p.desc||'').toLowerCase().includes(q)) : true;
+        const matchQ = q ? ((p.name && p.name.toLowerCase().includes(q)) || (p.desc && p.desc.toLowerCase().includes(q))) : true;
         const matchCat = cat ? (p.category === cat) : true;
         return matchQ && matchCat;
       });
       const sort = sortSelect.value;
-      if(sort === 'price-asc') list.sort((a,b)=>a.price-b.price);
-      if(sort === 'price-desc') list.sort((a,b)=>b.price-a.price);
-      if(sort === 'name-asc') list.sort((a,b)=>a.name.localeCompare(b.name));
+      if(sort === 'price-asc') list.sort((a,b)=> (a.price||0)-(b.price||0));
+      if(sort === 'price-desc') list.sort((a,b)=> (b.price||0)-(a.price||0));
+      if(sort === 'name-asc') list.sort((a,b)=> (a.name||'').localeCompare(b.name||''));
       renderProducts(list);
     }
     searchInput.addEventListener('input', throttle(filterAndRender, 180));
     catSelect.addEventListener('change', filterAndRender);
     sortSelect.addEventListener('change', filterAndRender);
 
-    shuffleBtn.addEventListener('click', ()=> {
-      shuffleArray(products);
-      filterAndRender();
-    });
-
-    /* ======= preorders render init ======= */
-    renderPreorders(preorders);
-
+    /* ======= initial render ======= */
     document.getElementById('year').textContent = new Date().getFullYear();
+    filterAndRender();
+    renderPreorders();
 
-    /* ======= contact: removed send form (email only) ======= */
+    /* ======= contact link updated (already in markup) ======= */
 
-    /* ======= modal quick-view for normal products ======= */
+    /* ======= modal quick-view ======= */
     let currentImages=[], currentIndex=0, currentProduct=null, modalAutoplayTimer=null;
     function showDetails(id){
-      const p = products.find(x=>x.id===id);
+      // find in products or preorders
+      const p = products.find(x=>x.id===id) || preorders.find(x=>x.id===id);
       if(!p) return;
       currentProduct=p;
-      currentImages=p.imgs.slice();
+      currentImages = (p.imgs && p.imgs.length) ? p.imgs.slice() : [];
       currentIndex=0;
       updateModal();
       openModal();
     }
-    function showPreDetails(id){
-      const p = preorders.find(x=>x.id===id);
-      if(!p) return;
-      // treat preorders similarly but with no "add to cart" (preorder action is messenger)
-      currentProduct = { id: p.id, name: p.title, priceText: p.eta ? ('ETA: '+p.eta) : 'Pre-order', imgs: p.imgs || [], desc: p.desc || p.note };
-      currentImages = currentProduct.imgs.slice();
-      currentIndex=0;
-      updateModal(true);
-      openModal();
-    }
-
-    function updateModal(isPre=false){
+    function updateModal(){
       document.getElementById('modal-img').src = currentImages[currentIndex] || '';
-      document.getElementById('modal-img').alt = currentProduct.name;
-      document.getElementById('modal-title').textContent = currentProduct.name + (currentProduct.priceText ? ' — ' + currentProduct.priceText : '');
-      document.getElementById('modal-caption').textContent = currentProduct.desc || '';
+      document.getElementById('modal-img').alt = currentProduct.name || currentProduct.title || '';
+      document.getElementById('modal-title').textContent = (currentProduct.name || currentProduct.title) + ' — ' + (currentProduct.priceText || currentProduct.eta || '');
+      document.getElementById('modal-caption').textContent = (currentProduct.desc || currentProduct.note || '');
       document.getElementById('modalAddToCart').onclick = ()=> {
-        if(isPre){
-          // pre-order: redirect to messenger with preorder message
-          const pre = preorders.find(x=>x.id === currentProduct.id);
-          const msg = `I want to pre-order: ${pre.title}\nETA: ${pre.eta}\nNote: ${pre.note || ''}\n\nPlease confirm availability and payment/pickup details.`;
-          copyThenOpenMessenger(msg);
-        } else {
-          addToCart(currentProduct);
-          humConfetti();
-          openCartSidebar();
-        }
+        addToCart(currentProduct);
+        humConfetti();
       };
       document.getElementById('modalBuyNow').onclick = ()=> {
-        if(isPre){
-          const pre = preorders.find(x=>x.id === currentProduct.id);
-          const msg = `I want to pre-order: ${pre.title}\nETA: ${pre.eta}\nNote: ${pre.note || ''}\n\nPlease confirm availability and payment/pickup details.`;
-          copyThenOpenMessenger(msg);
-        } else {
-          const msg = createSingleProductMessage(currentProduct, 1);
-          copyThenOpenMessenger(msg);
-        }
+        // create single product message and open messenger + copy
+        const qty = 1;
+        const msg = createSingleProductMessage(currentProduct, qty);
+        copyToClipboard(msg);
+        window.open(MESSENGER_BASE + '?message=' + encodeURIComponent(msg), '_blank');
+        alert('Message copied to clipboard and Messenger opened. Paste into Messenger if needed.');
       };
 
-      // thumbnails
       const strip = document.getElementById('modal-thumbs');
       strip.innerHTML = '';
       currentImages.forEach((src, i)=>{
         const im = document.createElement('img');
         im.src = src; im.loading='lazy';
-        im.alt = currentProduct.name + ' ' + (i+1);
+        im.alt = (currentProduct.name || currentProduct.title) + ' ' + (i+1);
         if(i === currentIndex) im.classList.add('active');
         im.addEventListener('click', ()=> {
-          currentIndex = i; updateModal(isPre);
+          currentIndex = i; updateModal();
         });
         strip.appendChild(im);
       });
@@ -713,10 +721,11 @@
     function getCart(){ try { return JSON.parse(localStorage.getItem('oo_cart')||'[]'); } catch(e){ return []; } }
     function saveCart(c){ localStorage.setItem('oo_cart', JSON.stringify(c)); updateCartUI(); }
     function addToCart(item){
-      if(!item || !item.id) return;
+      if(!item) return;
       const cart = getCart();
-      const found = cart.find(i=>i.id===item.id);
-      if(found) found.qty = (found.qty||1) + 1; else cart.push({id:item.id, name:item.name, price:item.price||0, priceText:item.priceText||'', qty:1});
+      const id = item.id || (item.title ? item.title.replace(/\s+/g,'_').toLowerCase() : Date.now().toString());
+      const found = cart.find(i=>i.id===id);
+      if(found) found.qty = (found.qty||1) + 1; else cart.push({id:id, name:item.name || item.title, price:item.price || 0, priceText:item.priceText || (item.eta || 'TBA'), qty:1});
       saveCart(cart);
     }
     function clearCart(){ localStorage.removeItem('oo_cart'); updateCartUI(); }
@@ -774,81 +783,21 @@
     document.getElementById('viewCartBtn').addEventListener('click', ()=> { openCartSidebar(); });
     document.getElementById('clearCartBtn').addEventListener('click', ()=> { clearCart(); });
 
-    // Checkout: redirect to Messenger with full cart details (copy message to clipboard first)
-    document.getElementById('checkoutSidebarBtn').addEventListener('click', async ()=>{
+    // Checkout: redirect to Messenger with full cart details
+    document.getElementById('checkoutSidebarBtn').addEventListener('click', ()=>{
       const cart = getCart();
       if(!cart.length){ alert('Cart is empty'); return; }
       const msg = createCartMessage(cart);
-      await copyThenOpenMessenger(msg);
+      copyToClipboard(msg);
+      // open messenger with message param and also open new tab so user can paste if necessary
+      window.open(MESSENGER_BASE + '?message=' + encodeURIComponent(msg), '_blank');
+      alert('Order message copied to clipboard and Messenger opened. Paste into Messenger if needed.');
     });
-
-    /* ======= message creation & redirect helpers ======= */
-    function createSingleProductMessage(product, qty){
-      return `I want to buy: ${product.name} — ${product.priceText}\nCategory: ${product.category || ''}\nDetails: ${product.desc || ''}\nQuantity: ${qty}\n\nPlease confirm availability and pickup/payment instructions.`;
-    }
-    function createCartMessage(cart){
-      const lines = cart.map((i, idx)=> `${idx+1}. ${i.name} — ${i.priceText} × ${i.qty}`);
-      const total = cart.reduce((s,i)=>s + (i.price * i.qty), 0);
-      return `I want to buy:\n${lines.join('\n')}\n\nTotal: ${total} tk\n\nPlease confirm availability and pickup/payment instructions.`;
-    }
-
-    // Copy message to clipboard and open messenger window with base link
-    async function copyThenOpenMessenger(message){
-      // try copy to clipboard (best-effort, may require user gesture/secure context)
-      try {
-        if(navigator.clipboard && navigator.clipboard.writeText){
-          await navigator.clipboard.writeText(message);
-          // small user feedback
-          showToast('Message copied to clipboard. Opening Messenger...');
-        } else {
-          // fallback using execCommand (older)
-          const ta = document.createElement('textarea');
-          ta.value = message; document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          ta.remove();
-          showToast('Message copied to clipboard. Opening Messenger...');
-        }
-      } catch(err){
-        // still proceed
-        console.warn('Could not copy to clipboard:', err);
-        showToast('Opening Messenger... (copy failed)');
-      }
-      // Open Messenger in a new tab; messenger may or may not read ?message param.
-      const url = MESSENGER_BASE + '?message=' + encodeURIComponent(message);
-      window.open(url, '_blank');
-    }
-
-    /* ======= UX helpers: simple toast ======= */
-    function showToast(text){
-      let t = document.getElementById('oo_toast');
-      if(!t){
-        t = document.createElement('div');
-        t.id='oo_toast';
-        t.style.position='fixed';
-        t.style.right='20px';
-        t.style.bottom='96px';
-        t.style.zIndex='999999';
-        t.style.padding='10px 14px';
-        t.style.borderRadius='10px';
-        t.style.background='rgba(10,10,12,0.9)';
-        t.style.color='#fff';
-        t.style.fontWeight='700';
-        document.body.appendChild(t);
-      }
-      t.textContent = text;
-      t.style.opacity = '1';
-      setTimeout(()=> { t.style.opacity = '0'; }, 2800);
-    }
 
     /* ======= small UX helpers ======= */
     function throttle(fn, wait){
-      let t=0; return function(...a){ const now=Date.now(); if(now - t > wait){ t=now; fn.apply(this,a); t=now; } };
+      let t=0; return function(...a){ const now=Date.now(); if(now - t > wait){ t=now; fn.apply(this,a); } };
     }
-
-    /* ======= initial render ======= */
-    filterAndRender();
-    updateCartUI();
 
     /* ======= keyboard nav between sections (nice-to-have) ======= */
     document.addEventListener('keydown', (e)=>{
@@ -877,92 +826,4 @@
         el.animate([
           { transform: 'translateY(0) scale(1)', opacity:1 },
           { transform: `translate(${dx}px, ${dy}px) scale(.6)`, opacity:0 }
-        ], { duration: 900 + Math.random()*700, easing: 'cubic-bezier(.2,.8,.2,1)'});
-        setTimeout(()=> el.remove(), 1800);
-      }
-    }
-
-    /* ======= particles background (canvas) ======= */
-    (function particles(){
-      const c = document.getElementById('particles'), ctx = c.getContext('2d');
-      let w, h, particles=[];
-      function resize(){ w = c.width = innerWidth; h = c.height = innerHeight; }
-      window.addEventListener('resize', resize); resize();
-
-      function init(){
-        particles = [];
-        const count = Math.max(40, Math.floor((w*h)/90000));
-        for(let i=0;i<count;i++){
-          particles.push({
-            x: Math.random()*w,
-            y: Math.random()*h,
-            r: 0.6 + Math.random()*2.4,
-            vx: (Math.random()-0.5)*0.2,
-            vy: (Math.random()-0.5)*0.2,
-            hue: Math.random()*360,
-            life: 100 + Math.random()*300
-          });
-        }
-      }
-      init();
-
-      function draw(){
-        ctx.clearRect(0,0,w,h);
-        particles.forEach(p=>{
-          p.x += p.vx;
-          p.y += p.vy;
-          p.life--;
-          if(p.x < -20) p.x = w+20;
-          if(p.x > w+20) p.x = -20;
-          if(p.y < -20) p.y = h+20;
-          if(p.y > h+20) p.y = -20;
-          const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*10);
-          g.addColorStop(0, `hsla(${p.hue},80%,65%,${0.12 + Math.sin(Date.now()/700 + p.x)*0.04})`);
-          g.addColorStop(1, 'rgba(255,255,255,0)');
-          ctx.beginPath();
-          ctx.fillStyle = g;
-          ctx.arc(p.x,p.y,p.r*6,0,Math.PI*2);
-          ctx.fill();
-        });
-        requestAnimationFrame(draw);
-      }
-      draw();
-    })();
-
-    /* ======= accessibility focus trap for modal (basic) ======= */
-    const modal = document.getElementById('modal');
-    const observer = new MutationObserver(()=> {
-      if(modal.classList.contains('open')) modal.querySelector('.modal-card').focus();
-    });
-    observer.observe(modal, {attributes:true, attributeFilter:['class']});
-
-    /* ======= initial nav active link by hash ======= */
-    function setActiveNav(){
-      document.querySelectorAll('.nav-link').forEach(a=> a.classList.toggle('active', a.getAttribute('href') === location.hash || (location.hash === '' && a.getAttribute('href') === '#home')));
-    }
-    window.addEventListener('hashchange', setActiveNav); setActiveNav();
-
-    /* ======= Shuffle products every 30 seconds (keeps filters applied) ======= */
-    function shuffleArray(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    setInterval(()=> {
-      shuffleArray(products);
-      filterAndRender();
-    }, 30000);
-
-    /* ======= ensure existing smaller cart (if present) replaced with sidebar functions ======= */
-    const oldCart = document.getElementById('cartModal');
-    if(oldCart) oldCart.style.display = 'none';
-
-    /* ======= utility to ensure reveals observed on load ======= (already above but ensure) ======= */
-    observeReveals();
-
-  </script>
-</body>
-</html>
+        ], { duration: 900 +
