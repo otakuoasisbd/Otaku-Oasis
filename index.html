@@ -3,11 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Otaku Oasis - Modern Dark</title>
+  <title>Otaku Oasis - Your Fandom Gateaway </title>
   <link rel="icon" type="image/png" href="assets/otaku logo main.png">
   <meta name="description" content="Otaku Oasis — anime collectibles & figures." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#050407;
@@ -18,23 +17,23 @@
       --accent1:#b63cff; /* neon purple */
       --accent2:#7b5cff; /* rich purple */
       --accent3:#1fe0d6; /* teal accent */
-      --accent-glow: 0 10px 40px rgba(182,60,255,0.08);
+      --accent-glow: 0 12px 48px rgba(182,60,255,0.10);
       --radius:14px;
       --ease: cubic-bezier(.2,.9,.2,1);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      background: radial-gradient(1000px 500px at 15% 10%, rgba(123,92,255,0.04), transparent), linear-gradient(180deg,var(--bg),#020205);
+      margin:0; font-family:Poppins, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(123,92,255,0.03), transparent), linear-gradient(180deg,var(--bg),#020205);
       color:#e9eef8; line-height:1.45; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
       overflow-y:scroll; scroll-behavior:smooth;
     }
 
-    /* top progress */
+    /* progress */
     #progress{position:fixed;left:0;top:0;height:4px;width:0;background:linear-gradient(90deg,var(--accent1),var(--accent2));z-index:9999;border-radius:0 6px 6px 0}
 
-    header{position:sticky;top:0;z-index:60;padding:10px 18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,0.02)}
+    header{position:sticky;top:0;z-index:60;padding:10px 18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.02)}
     .nav-wrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
     .brand{display:flex;align-items:center;gap:12px}
     .brand img{height:48px;border-radius:8px}
@@ -52,7 +51,7 @@
     .cta{display:inline-block;margin-top:18px;padding:12px 16px;border-radius:10px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#05060a;font-weight:800;text-decoration:none}
 
     /* controls */
-    .controls{display:flex;gap:12px;align-items:center;margin-top:18px}
+    .controls{display:flex;gap:12px;align-items:center;margin-top:18px;flex-wrap:wrap}
     .controls input,.controls select{padding:10px 12px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:inherit;font-weight:600}
 
     /* grid */
@@ -76,17 +75,17 @@
     .pre-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 
     /* cart popup */
-    .cart-popup{position:fixed;right:20px;bottom:20px;width:360px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);box-shadow:0 20px 60px rgba(0,0,0,0.6);z-index:2000;transform:translateY(18px);opacity:0;pointer-events:none;transition:opacity .18s ease, transform .18s ease}
+    .cart-popup{position:fixed;right:20px;bottom:20px;width:360px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);box-shadow:0 20px 60px rgba(0,0,0,0.6);z-index:2000;transform:translateY(18px);opacity:0;pointer-events:none;transition:opacity .28s ease, transform .28s cubic-bezier(.2,.8,.2,1)}
     .cart-popup.open{transform:translateY(0);opacity:1;pointer-events:auto}
     .cart-header{display:flex;align-items:center;justify-content:space-between;padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)}
     .cart-items{max-height:260px;overflow:auto;padding:12px}
     .cart-item{display:flex;gap:8px;align-items:center;border-radius:8px;padding:8px}
     .cart-item img{height:64px;width:64px;object-fit:cover;border-radius:8px}
-    .cart-item .meta{flex:1}
     .cart-footer{padding:12px;border-top:1px solid rgba(255,255,255,0.02);display:flex;flex-direction:column;gap:8px}
 
     /* floating cart button */
-    .cart-fab{position:fixed;right:20px;bottom:20px;height:56px;width:56px;border-radius:50%;background:linear-gradient(180deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:#05060a;font-weight:900;z-index:2100;box-shadow:0 12px 36px rgba(0,0,0,0.6);cursor:pointer}
+    .cart-fab{position:fixed;right:20px;bottom:20px;height:56px;width:56px;border-radius:50%;background:linear-gradient(180deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:#05060a;font-weight:900;z-index:2100;box-shadow:0 12px 36px rgba(0,0,0,0.6);cursor:pointer;transition:transform .18s}
+    .cart-fab:hover{transform:scale(1.06)}
 
     footer{max-width:1200px;margin:28px auto;color:var(--muted);padding:0 18px}
 
@@ -97,6 +96,10 @@
     }
 
     a:focus,button:focus,input:focus{outline:2px solid rgba(123,92,255,0.12);outline-offset:2px;border-radius:8px}
+
+    /* small reveal animation */
+    .reveal{opacity:0;transform:translateY(6px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.in-view{opacity:1;transform:translateY(0)}
   </style>
 </head>
 <body>
@@ -105,10 +108,10 @@
   <header>
     <div class="nav-wrap">
       <div class="brand">
-        <img src="assets/wb otaku.PNG" alt="Otaku Oasis" onerror="this.style.display='none'">
+        <img src="assets/wb otaku.PNG" alt="Otaku Oasis" id="site-logo" onerror="this.style.display='none'">
         <div>
           <h1>Otaku Oasis</h1>
-          <div style="font-size:12px;color:var(--muted);">Anime figures & Collectibles</div>
+          <div style="font-size:12px;color:var(--muted)">Anime figures & Collectibles</div>
         </div>
       </div>
       <nav>
@@ -122,11 +125,16 @@
   </header>
 
   <main>
-    <section id="home" class="hero" tabindex="-1" aria-labelledby="hero-title">
-      <div class="card-hero">
+    <section class="hero reveal" id="home" tabindex="-1" aria-labelledby="hero-title">
+      <div class="hero-card card-hero" role="region" aria-label="Hero">
         <h2 id="hero-title">Find rare anime figures & limited collectibles</h2>
         <p>Premium hand-picked figures, pre-orders and exclusive drops. Browse, reserve, and contact us directly — designed for collectors who want the best.</p>
-        <a href="#shop" class="cta">Shop Now</a>
+        <a href="#shop" class="cta" id="shopCta">Shop Now</a>
+
+        <div class="neon-row" style="margin-top:18px;font-size:13px;display:flex;gap:10px;flex-wrap:wrap" aria-hidden="true">
+          <div class="neon-tag" style="padding:8px 12px;border-radius:12px;font-weight:800;color:var(--accent1);text-shadow:0 0 8px var(--accent1);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)">🔥 Limited Edition Figures</div>
+          <div class="neon-tag" style="padding:8px 12px;border-radius:12px;font-weight:800;color:var(--accent1);text-shadow:0 0 8px var(--accent1);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)">🛡️ 100% Same as-photo Collectibles</div>
+        </div>
 
         <div class="controls">
           <div style="display:flex;gap:8px;align-items:center">
@@ -154,42 +162,41 @@
         </div>
       </div>
 
-      <aside style="background:var(--surface);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);min-height:140px">
-        <h3 style="margin:0 0 8px 0;color:var(--accent2)">HIGHLIGHTS</h3>
-        <p style="color:var(--muted)">Quick categories and extras. Use the cart button to view items and checkout via Messenger.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+      <aside class="side-panel reveal" aria-hidden="false" style="padding:18px;background:var(--card);border-radius:12px;position:relative;min-height:140px">
+        <h3>HIGHLIGHTS</h3>
+        <p style="color:var(--muted)">Quick categories and extras. Use the floating cart (bottom-right) to view items and checkout via Messenger.</p>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span style="background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-size:13px">Naruto</span>
           <span style="background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-size:13px">Demon Slayer</span>
           <span style="background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-size:13px">Jujutsu Kaisen</span>
           <span style="background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-size:13px">One Piece</span>
         </div>
-        <div style="margin-top:12px">
-          <button class="btn primary" id="openCartTop">Cart (<span id="cartCount">0</span>)</button>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn primary" id="openCartTop" aria-haspopup="dialog">Cart (<span id="cartCount">0</span>)</button>
         </div>
       </aside>
     </section>
 
-    <!-- SHOP -->
-    <section id="shop" class="section" aria-labelledby="shop-title">
+    <section class="section reveal" id="shop" aria-labelledby="shop-title">
       <h3 id="shop-title" style="color:var(--accent2);margin:6px 0 14px">Shop</h3>
-      <div id="products-grid" class="grid" role="list" aria-live="polite"></div>
+      <div class="grid" id="products-grid" role="list" aria-live="polite"></div>
       <p id="noResults" class="muted" style="margin-top:14px;display:none">No results found.</p>
     </section>
 
-    <!-- PRE-ORDERS (same style as shop) -->
-    <section id="preorders" class="section" aria-labelledby="preorders-title">
+    <section class="section reveal" id="preorders" aria-labelledby="preorders-title">
       <h3 id="preorders-title" style="color:var(--accent2);margin:6px 0 14px">Pre-orders</h3>
       <div id="pre-list" class="pre-grid"></div>
     </section>
 
-    <section id="about" class="section" aria-labelledby="about-title">
+    <section class="section reveal" id="about" aria-labelledby="about-title">
       <h3 id="about-title" style="color:var(--accent2);margin:6px 0 14px">About Otaku Oasis</h3>
       <div style="display:grid;grid-template-columns:1fr 320px;gap:16px">
         <div>
           <p style="color:var(--muted)">Otaku Oasis started with one mission: to bring the best anime figures to passionate collectors at an affordable price. We source from trusted suppliers and inspect every item before listing it. Follow our socials for drop alerts and exclusive sales.</p>
           <p style="color:var(--muted)">We update stock frequently — subscribe to our newsletter (coming soon) for alerts and exclusive offers.</p>
         </div>
-        <aside style="padding:14px;border-radius:12px;background:var(--surface)">
+        <aside style="padding:14px;border-radius:12px;background:var(--card)">
           <h4 style="margin-top:0;color:var(--accent2)">Contact & Hours</h4>
           <p style="color:var(--muted)">Email: <a href="mailto:techoasis0cloud@gmail.com" style="color:var(--muted);text-decoration:underline">techoasis0cloud@gmail.com</a></p>
           <p style="color:var(--muted)">Pickup: New Elephant Road</p>
@@ -197,20 +204,19 @@
       </div>
     </section>
 
-    <section id="contact" class="section" aria-labelledby="contact-title">
+    <section class="section reveal" id="contact" aria-labelledby="contact-title">
       <h3 id="contact-title" style="color:var(--accent2);margin:6px 0 14px">Contact</h3>
       <div style="display:grid;grid-template-columns:1fr 320px;gap:16px">
         <div>
           <p style="color:var(--muted)">For inquiries, please email us directly. We typically reply within 24 hours.</p>
           <p style="margin-top:12px"><a class="btn primary" href="mailto:techoasis0cloud@gmail.com">Email: techoasis0cloud@gmail.com</a></p>
         </div>
-        <aside style="padding:14px;border-radius:12px;background:var(--surface)">
+        <aside style="padding:14px;border-radius:12px;background:var(--card)">
           <h4 style="margin-top:0">Follow & Chat</h4>
           <p style="color:var(--muted)"><a href="https://www.facebook.com/otakuoasisbd" target="_blank" style="color:var(--muted);text-decoration:underline">Facebook</a> • <a href="https://www.instagram.com/theotakuoasisbd" target="_blank" style="color:var(--muted);text-decoration:underline">Instagram</a></p>
         </aside>
       </div>
     </section>
-
   </main>
 
   <footer>
@@ -247,7 +253,7 @@
   </div>
 
   <script>
-    // ====== Data (preserve exactly names, images, descriptions, preorders) ======
+    /* ====== FULL product data (from your original file) ====== */
     const products = [
       {id:'akaza1', name:'Akaza', priceText:'700tk', price:700, imgs:['assets/akaza1.JPEG','assets/akaza2.JPEG','assets/akaza3.JPEG'], desc:'Akaza figure Size:28cm from Demon Slayer.', category:'Demon Slayer'},
       {id:'marin', name:'Marin Kitagawa', priceText:'800tk', price:800, imgs:['assets/marin1.JPEG','assets/marin2.JPEG','assets/marin3.JPEG'], desc:'Limited edition Marin figure from My Dressup Darling with box.', category:'Other'},
@@ -260,27 +266,27 @@
     ];
 
     const preorders = [
-      {id:'pre1', title:'Sailor Moon - Limited', eta:'2026-01', note:'Reserve now, limited run.', imgs:['assets/sailormoon1.jpg']},
-      {id:'pre2', title:'Jujutsu Kaisen Set', eta:'2025-12', note:'Bundle pre-order discount.', imgs:['assets/jujutsu.set.jpg']}
+      {id:'pre1', title:'Sailor Moon - Limited', eta:'2026-01', note:'Reserve now, limited run.', imgs:['assets/sailormoon1.jpg'], priceText:'Pre-order', price:0},
+      {id:'pre2', title:'Jujutsu Kaisen Set', eta:'2025-12', note:'Bundle pre-order discount.', imgs:['assets/jujutsu.set.jpg'], priceText:'Pre-order', price:0}
     ];
 
     const MESSENGER_URL = 'https://www.facebook.com/messages/t/737804756085179';
 
-    // small helpers
-    function e(sel){return document.querySelector(sel)}
-    function el(tag, attrs){ const d=document.createElement(tag); if(attrs) Object.assign(d, attrs); return d }
+    /* small helpers */
+    function e(sel){ return document.querySelector(sel); }
+    function el(tag, attrs){ const d=document.createElement(tag); if(attrs) Object.assign(d, attrs); return d; }
 
-    // progress
+    /* progress */
     document.addEventListener('scroll', ()=>{ const s = document.documentElement; const percent = (s.scrollTop) / (s.scrollHeight - s.clientHeight) * 100; document.getElementById('progress').style.width = percent + '%'; }, {passive:true});
 
-    // render products
+    /* render products (shop) */
     const grid = document.getElementById('products-grid');
     function renderProducts(list){
-      grid.innerHTML = '';
-      if(!list.length){ document.getElementById('noResults').style.display='block'; return; }
-      document.getElementById('noResults').style.display='none';
+      grid.innerHTML='';
+      if(!list.length){ document.getElementById('noResults').style.display='block'; return; } else document.getElementById('noResults').style.display='none';
+
       list.forEach(p=>{
-        const card = document.createElement('article'); card.className='product-card'; card.setAttribute('role','listitem');
+        const card = document.createElement('article'); card.className='product-card reveal'; card.setAttribute('role','listitem');
         const imgSrc = p.imgs[0] || '';
         card.innerHTML = `
           <div class="thumb"><img loading="lazy" src="${imgSrc}" alt="${p.name}"></div>
@@ -299,30 +305,31 @@
         card.querySelectorAll('[data-action]').forEach(b=> b.addEventListener('click', (ev)=>{
           ev.stopPropagation(); const id = ev.currentTarget.getAttribute('data-id'); const action = ev.currentTarget.getAttribute('data-action');
           const prod = products.find(x=>x.id===id);
-          if(action==='add'){ addToCart(prod); openCart(); }
+          if(action==='add'){ addToCart(prod); openCart(); humConfetti(); }
           if(action==='details'){ showDetails(prod); }
         }));
 
-        // image error handling
         const img = card.querySelector('img'); img.addEventListener('error', ()=>{ img.style.opacity='.18'; img.alt=p.name; });
-
+        img.addEventListener('click', ()=> showDetails(p));
         grid.appendChild(card);
       });
+      observeReveals();
     }
 
-    // render preorders in same style
+    /* render preorders with same card structure */
     const preList = document.getElementById('pre-list');
     function renderPreorders(){
       preList.innerHTML='';
       preorders.forEach(p=>{
-        const card = document.createElement('article'); card.className='product-card';
+        const card=document.createElement('article'); card.className='product-card reveal';
         const img = (p.imgs && p.imgs[0]) || '';
         card.innerHTML = `
           <div class="thumb"><img loading="lazy" src="${img}" alt="${p.title}"></div>
           <div class="p-title">${p.title}</div>
-          <div class="p-desc">ETA: ${p.eta}\n${p.note}</div>
+          <div class="p-desc">ETA: ${p.eta}
+${p.note}</div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-            <div style="color:var(--muted);font-weight:700">Pre-order</div>
+            <div style="color:var(--muted);font-weight:700">${p.priceText}</div>
             <div class="card-actions">
               <button class="btn ghost" data-id="${p.id}" data-action="pre-details">Details</button>
               <button class="btn primary" data-id="${p.id}" data-action="pre-order">Pre-order</button>
@@ -331,24 +338,34 @@
         `;
         card.querySelectorAll('[data-action]').forEach(b=> b.addEventListener('click', (ev)=>{
           ev.stopPropagation(); const id = ev.currentTarget.getAttribute('data-id'); const action = ev.currentTarget.getAttribute('data-action');
-          if(action==='pre-order'){ const pre = preorders.find(x=>x.id===id); const msg = `I want to pre-order: ${pre.title} (ETA: ${pre.eta})\nNote: ${pre.note}`; redirectToMessenger(msg); }
-          if(action==='pre-details'){ const pre = preorders.find(x=>x.id===id); showPreDetails(pre); }
+          const pre = preorders.find(x=>x.id===id);
+          if(action==='pre-order'){ const msg = `I want to pre-order: ${pre.title} (ETA: ${pre.eta})
+Note: ${pre.note}`; redirectToMessenger(msg); }
+          if(action==='pre-details'){ showPreDetails(pre); }
         }));
         preList.appendChild(card);
       });
+      observeReveals();
     }
 
-    // details modal (simple) - using native dialog fallback
+    /* details modal simple (alert fallback) */
     function showDetails(prod){
       const lines = [`Name: ${prod.name}`, `Price: ${prod.priceText}`, `Category: ${prod.category}`, `${prod.desc}`];
-      alert(lines.join('\n'));
+      alert(lines.join('
+'));
     }
-    function showPreDetails(pre){ alert(`Title: ${pre.title}\nETA: ${pre.eta}\n${pre.note}`); }
+    function showPreDetails(pre){ alert(`Title: ${pre.title}
+ETA: ${pre.eta}
+${pre.note}`); }
 
-    // search & filters
-    const searchInput = e('#search'); const catSelect = e('#categoryFilter'); const sortSelect = e('#sortBy');
+    /* search & filters (categories show correctly by default) */
+    const searchInput = e('#search');
+    const catSelect = e('#categoryFilter');
+    const sortSelect = e('#sortBy');
+
     function filterAndRender(){
-      let q = (searchInput.value||'').trim().toLowerCase(); let cat = catSelect.value;
+      let q = (searchInput.value||'').trim().toLowerCase();
+      let cat = catSelect.value;
       let list = products.filter(p=>{
         const matchQ = q ? (p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)) : true;
         const matchCat = cat ? (p.category === cat) : true;
@@ -360,100 +377,84 @@
       if(sort==='name-asc') list.sort((a,b)=>a.name.localeCompare(b.name));
       renderProducts(list);
     }
-    searchInput.addEventListener('input', throttle(filterAndRender, 160)); catSelect.addEventListener('change', filterAndRender); sortSelect.addEventListener('change', filterAndRender);
+    searchInput.addEventListener('input', throttle(filterAndRender, 180));
+    catSelect.addEventListener('change', filterAndRender);
+    sortSelect.addEventListener('change', filterAndRender);
 
-    // localStorage cart
-    function getCart(){ try{return JSON.parse(localStorage.getItem('oo_cart')||'[]')}catch(e){return []} }
+    /* localStorage cart (integrated) */
+    function getCart(){ try { return JSON.parse(localStorage.getItem('oo_cart')||'[]'); } catch(e){ return []; } }
     function saveCart(c){ localStorage.setItem('oo_cart', JSON.stringify(c)); updateCartUI(); }
-    function addToCart(item){ const cart=getCart(); const found=cart.find(i=>i.id===item.id); if(found) found.qty = (found.qty||1)+1; else cart.push({id:item.id,name:item.name,price:item.price,priceText:item.priceText,qty:1,img:item.imgs[0]||''}); saveCart(cart); }
+    function addToCart(item){ const cart = getCart(); const found = cart.find(i=>i.id===item.id); if(found) found.qty = (found.qty||1) + 1; else cart.push({id:item.id, name:item.name, price:item.price, priceText:item.priceText, qty:1, img:item.imgs[0]||''}); saveCart(cart); }
     function clearCart(){ localStorage.removeItem('oo_cart'); updateCartUI(); }
+    function updateCartCount(){ const c = getCart().reduce((s,i)=>s+i.qty,0); document.getElementById('cartCount').textContent = c; document.getElementById('cartCountLabel').textContent = `${c} item${c===1?'':'s'}`; }
 
-    function updateCartUI(){ const cart = getCart(); const count = cart.reduce((s,i)=>s+i.qty,0); document.getElementById('cartCount').textContent = count; document.getElementById('cartCountLabel').textContent = `${count} item${count===1?'':'s'}`; renderCartItems(); }
-
-    function renderCartItems(){ const container = document.getElementById('cartItems'); const cart=getCart(); container.innerHTML=''; if(!cart.length){ container.innerHTML = '<div style="color:var(--muted)">Cart is empty</div>'; document.getElementById('cartTotal').textContent='0 tk'; return; }
-      cart.forEach(item=>{
-        const row = document.createElement('div'); row.className='cart-item'; row.innerHTML = `
+    function renderCartSidebar(){ const container = document.getElementById('cartItems'); const cart = getCart(); container.innerHTML = ''; if(!cart.length) container.innerHTML = '<div class="muted">Cart is empty</div>'; cart.forEach(item=>{ const row = document.createElement('div'); row.className = 'cart-item'; row.innerHTML = `
           <img src="${item.img}" alt="${item.name}" onerror="this.style.opacity='.18'">
-          <div class="meta">
-            <strong>${item.name}</strong>
-            <div class="small-muted">${item.priceText} × ${item.qty}</div>
-          </div>
+          <div class="meta"><strong>${item.name}</strong><div class="small-muted">${item.priceText} × ${item.qty}</div></div>
           <div style="display:flex;flex-direction:column;gap:6px">
             <button class="btn ghost" onclick="decreaseQty('${item.id}')">–</button>
             <button class="btn ghost" onclick="increaseQty('${item.id}')">+</button>
             <button class="btn ghost" onclick="removeItem('${item.id}')">Remove</button>
           </div>
-        `;
-        container.appendChild(row);
-      });
+        `; container.appendChild(row); }); const total = cart.reduce((s,i)=>s + (i.price * i.qty), 0); document.getElementById('cartTotal').textContent = `${total} tk`; updateCartCount(); }
+
+    function decreaseQty(id){ const cart = getCart(); const item = cart.find(i=>i.id===id); if(!item) return; item.qty--; if(item.qty<=0){ const idx = cart.findIndex(i=>i.id===id); cart.splice(idx,1); } saveCart(cart); renderCartSidebar(); }
+    function increaseQty(id){ const cart = getCart(); const item = cart.find(i=>i.id===id); if(!item) return; item.qty++; saveCart(cart); renderCartSidebar(); }
+    function removeItem(id){ const cart = getCart(); const idx = cart.findIndex(i=>i.id===id); if(idx>=0){ cart.splice(idx,1); saveCart(cart); renderCartSidebar(); } }
+
+    function openCart(){ const s = document.getElementById('cartPopup'); s.classList.add('open'); s.setAttribute('aria-hidden','false'); renderCartSidebar(); }
+    function closeCartSidebar(){ const s = document.getElementById('cartPopup'); s.classList.remove('open'); s.setAttribute('aria-hidden','true'); }
+
+    document.getElementById('cartFab').addEventListener('click', ()=>{ const s = document.getElementById('cartPopup'); s.classList.toggle('open'); s.setAttribute('aria-hidden', !s.classList.contains('open')); renderCartSidebar(); });
+    document.getElementById('openCartTop').addEventListener('click', ()=> openCart());
+    document.getElementById('closeCart').addEventListener('click', ()=> closeCartSidebar());
+    document.getElementById('clearCartBtn2').addEventListener('click', ()=> { if(confirm('Clear cart?')) clearCart(); });
+
+    /* checkout -> messenger with prefilled message (encoded) + fallback try different param names */
+    document.getElementById('checkoutBtn').addEventListener('click', ()=>{
+      const cart = getCart(); if(!cart.length){ alert('Cart is empty'); return; }
+      const lines = cart.map((i,idx)=> `${idx+1}. ${i.name} — ${i.priceText} × ${i.qty}`);
       const total = cart.reduce((s,i)=>s + (i.price * i.qty), 0);
-      document.getElementById('cartTotal').textContent = `${total} tk`;
-    }
+      const msg = `I want to buy:
+${lines.join('
+')}
 
-    function decreaseQty(id){ const cart=getCart(); const it=cart.find(i=>i.id===id); if(!it) return; it.qty--; if(it.qty<=0) cart.splice(cart.findIndex(x=>x.id===id),1); saveCart(cart); }
-    function increaseQty(id){ const cart=getCart(); const it=cart.find(i=>i.id===id); if(!it) return; it.qty++; saveCart(cart); }
-    function removeItem(id){ const cart=getCart(); const idx=cart.findIndex(i=>i.id===id); if(idx>=0) cart.splice(idx,1); saveCart(cart); }
+Total: ${total} tk
 
-    // cart popup controls
-    const cartFab = document.getElementById('cartFab'); const cartPopup = document.getElementById('cartPopup'); const closeCart = document.getElementById('closeCart');
-    cartFab.addEventListener('click', ()=>{ cartPopup.classList.toggle('open'); cartPopup.setAttribute('aria-hidden', !cartPopup.classList.contains('open')); updateCartUI(); });
-    document.getElementById('openCartTop').addEventListener('click', ()=>{ openCart(); });
-    closeCart.addEventListener('click', ()=>{ cartPopup.classList.remove('open'); cartPopup.setAttribute('aria-hidden','true'); });
+Please confirm availability and pickup/payment instructions.`;
+      const encoded = encodeURIComponent(msg);
+      // try message param then text param and finally plain open (best-effort)
+      const urls = [
+        MESSENGER_URL + '?message=' + encoded,
+        MESSENGER_URL + '?text=' + encoded,
+        MESSENGER_URL
+      ];
+      // open first url (browsers/popup blockers will allow); this is best-effort because FB handling varies by platform
+      window.open(urls[0], '_blank');
+    });
 
-    function openCart(){ cartPopup.classList.add('open'); cartPopup.setAttribute('aria-hidden','false'); updateCartUI(); }
+    function redirectToMessenger(message){ const encoded = encodeURIComponent(message); const link = MESSENGER_URL + '?message=' + encoded; window.open(link, '_blank'); }
 
-    document.getElementById('clearCartBtn2').addEventListener('click', ()=>{ if(confirm('Clear cart?')) clearCart(); });
-
-    // checkout -> messenger with prefilled message
-    <script>
-document.getElementById('checkout-btn').addEventListener('click', function() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  if (cart.length === 0) {
-    alert('Your cart is empty!');
-    return;
-  }
-
-  let message = 'Hi Otaku Oasis! I want to order:\n\n';
-  let total = 0;
-  cart.forEach(item => {
-    message += `• ${item.name} — Tk. ${item.price}\n`;
-    total += item.price;
-  });
-  message += `\nTotal: Tk. ${total}`;
-
-  // Encode message for Messenger
-  const encodedMessage = encodeURIComponent(message);
-
-  // Redirect to Messenger with prefilled message
-  const messengerLink = `https://www.facebook.com/messages/t/737804756085179?text=${encodedMessage}`;
-  window.open(messengerLink, '_blank');
-});
-</script>
-
-
-    function redirectToMessenger(message){ const url = MESSENGER_URL + '?message=' + encodeURIComponent(message); window.open(url, '_blank'); }
-
-    // quick helpers
+    /* small UX helpers */
     function throttle(fn, wait){ let t=0; return function(...a){ const now=Date.now(); if(now - t > wait){ t=now; fn.apply(this,a); } }; }
 
-    // initial render & misc
+    /* reveal observer */
+    let io;
+    function observeReveals(){ const reveals = document.querySelectorAll('.reveal:not(.in-view)'); if(!('IntersectionObserver' in window)) { reveals.forEach(r=> r.classList.add('in-view')); return; } if(!io){ io = new IntersectionObserver((entries)=>{ entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('in-view'); io.unobserve(entry.target); } }); }, {threshold:0.12}); } reveals.forEach(r=> io.observe(r)); }
+
+    /* confetti */
+    function humConfetti(){ const colors = ['#ff2d6f','#7b5cff','#1fe0d6','#ffd166']; for(let i=0;i<18;i++){ const el = document.createElement('div'); el.style.position='fixed'; el.style.left = (50 + (Math.random()-0.5)*40) + '%'; el.style.top = (40 + (Math.random()-0.5)*20) + '%'; el.style.width = el.style.height = (6 + Math.random()*8) + 'px'; el.style.background = colors[Math.floor(Math.random()*colors.length)]; el.style.borderRadius = (Math.random()>0.5 ? '2px' : '50%'); el.style.zIndex = 99999; el.style.pointerEvents='none'; el.style.opacity = '0.95'; el.style.transform = `translateY(0) rotate(${Math.random()*360}deg)`; document.body.appendChild(el); const dx = (Math.random()-0.5)*200; const dy = -200 - Math.random()*400; el.animate([{ transform: 'translateY(0) scale(1)', opacity:1 },{ transform: `translate(${dx}px, ${dy}px) scale(.6)`, opacity:0 }], { duration: 900 + Math.random()*700, easing: 'cubic-bezier(.2,.8,.2,1)'}); setTimeout(()=> el.remove(), 1800); } }
+
+    /* particles - light */
+    (function particles(){ const c = document.createElement('canvas'); c.id='particles'; c.style.position='fixed'; c.style.inset=0; c.style.zIndex=1; c.style.pointerEvents='none'; c.style.opacity='0.6'; document.body.appendChild(c); const ctx = c.getContext('2d'); let w,h,particlesArr=[]; function resize(){ w=c.width=innerWidth; h=c.height=innerHeight; } window.addEventListener('resize', resize); resize(); function init(){ particlesArr=[]; const count=Math.max(30,Math.floor((w*h)/120000)); for(let i=0;i<count;i++){ particlesArr.push({ x:Math.random()*w, y:Math.random()*h, r:0.6+Math.random()*2.4, vx:(Math.random()-0.5)*0.2, vy:(Math.random()-0.5)*0.2, hue:Math.random()*360 }); } } init(); function draw(){ ctx.clearRect(0,0,w,h); particlesArr.forEach(p=>{ p.x += p.vx; p.y += p.vy; if(p.x < -20) p.x = w+20; if(p.x > w+20) p.x = -20; if(p.y < -20) p.y = h+20; if(p.y > h+20) p.y = -20; const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*10); g.addColorStop(0, `hsla(${p.hue},80%,65%,${0.10})`); g.addColorStop(1, 'rgba(255,255,255,0)'); ctx.beginPath(); ctx.fillStyle = g; ctx.arc(p.x,p.y,p.r*6,0,Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); } draw(); })();
+
+    /* initial render */
     document.getElementById('year').textContent = new Date().getFullYear();
-    filterAndRender(); renderPreorders(); updateCartUI();
+    filterAndRender(); renderPreorders(); updateCartUI(); observeReveals();
 
-    // keyboard bindings
-    document.addEventListener('keydown', (e)=>{ if(e.altKey && e.key==='s'){ e.preventDefault(); document.getElementById('search').focus(); } });
+    // keyboard
+    document.addEventListener('keydown',(e)=>{ if(e.altKey && e.key==='s'){ e.preventDefault(); document.getElementById('search').focus(); } });
 
-    // small responsive/touch improvements
-    window.addEventListener('load', ()=>{ observeReveals(); });
-
-    // observe reveals (simple fade-in)
-    function observeReveals(){ document.querySelectorAll('.product-card, .card-hero, .pre-card').forEach((el,i)=>{ el.style.opacity=0; el.style.transform='translateY(6px)'; setTimeout(()=>{ el.style.transition='opacity .6s ease, transform .6s ease'; el.style.opacity=1; el.style.transform='translateY(0)'; }, i*80); }); }
-
-    // shuffle products occasionally — keep but slower
-    function shuffleArray(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
-    setInterval(()=>{ shuffleArray(products); filterAndRender(); }, 45000);
-
-    // simple alert when clicking details in lieu of modal to keep code small and portable
   </script>
 </body>
 </html>
