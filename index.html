@@ -3,79 +3,89 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Otaku Oasis - Your Fandom Gateway</title>
+<title>Otaku Oasis</title>
 
-<link rel="icon" type="image/png" href="assets/otaku logo main.png">
-<meta name="description" content="Otaku Oasis — anime collectibles & figures." />
+<link rel="icon" href="assets/otaku logo main.png">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#07060a;
-  --surface:#0c0b10;
-  --muted:#9aa0a6;
+  --bg:#05040a;
   --accent1:#b63cff;
   --accent2:#7b5cff;
-  --radius:14px;
-  --max-width:1100px;
 }
 
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Inter,system-ui;
-  background:linear-gradient(180deg,var(--bg),#020205);
   color:#e9eef8;
+  background:#05040a;
+  overflow-x:hidden;
+}
+
+/* 🔥 Animated background */
+.bg-anim{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(182,60,255,.25),transparent 40%),
+    radial-gradient(circle at 80% 30%,rgba(123,92,255,.18),transparent 40%),
+    radial-gradient(circle at 50% 80%,rgba(182,60,255,.2),transparent 45%);
+  animation:bgMove 18s linear infinite alternate;
+}
+
+@keyframes bgMove{
+  0%{transform:scale(1) translateY(0)}
+  100%{transform:scale(1.1) translateY(-40px)}
 }
 
 header{
   position:sticky;
   top:0;
-  background:rgba(7,6,10,.8);
-  backdrop-filter:blur(8px);
-  border-bottom:1px solid rgba(255,255,255,.04);
-  z-index:50;
+  backdrop-filter:blur(10px);
+  background:rgba(5,4,10,.75);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  z-index:10;
 }
 
-.nav-wrap{
-  max-width:var(--max-width);
+.nav{
+  max-width:1100px;
   margin:auto;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:10px 18px;
+  padding:12px 18px;
 }
 
 .brand{
   display:flex;
-  gap:10px;
   align-items:center;
+  gap:10px;
 }
 .brand img{height:42px;border-radius:8px}
-.brand h1{margin:0;font-size:18px;color:var(--accent1)}
-
-nav a{
-  color:var(--muted);
-  text-decoration:none;
-  margin-left:14px;
-  font-weight:700;
+.brand span{
+  font-family:Orbitron;
+  color:var(--accent1);
+  font-size:18px;
 }
-nav a:hover{color:#fff}
 
 main{
-  max-width:var(--max-width);
+  max-width:1100px;
   margin:auto;
-  padding:24px 18px;
+  padding:22px 18px 100px;
 }
 
 .hero{
-  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));
-  border-radius:var(--radius);
-  padding:28px;
+  padding:26px;
+  border-radius:14px;
+  background:rgba(255,255,255,.02);
 }
 
-.hero h2{
+.hero h1{
   font-family:Orbitron;
   font-size:34px;
   background:linear-gradient(90deg,var(--accent1),var(--accent2));
@@ -83,178 +93,120 @@ main{
   color:transparent;
 }
 
-.hero p{color:var(--muted)}
-
-.controls{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:18px;
-}
-
-.controls input,.controls select{
-  padding:12px;
-  border-radius:10px;
-  background:transparent;
-  border:1px solid rgba(255,255,255,.08);
-  color:#fff;
-  font-weight:700;
-}
-
-.section{margin-top:36px}
-
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:18px;
+  margin-top:24px;
 }
 
-.product-card{
-  background:rgba(255,255,255,.015);
-  border-radius:12px;
+.card{
+  background:rgba(255,255,255,.02);
+  border-radius:14px;
   padding:12px;
-  transition:.3s;
+  transition:.35s;
 }
-.product-card:hover{
-  transform:translateY(-6px) scale(1.01);
-}
+.card:hover{transform:translateY(-6px)}
 
 .thumb{
   height:200px;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
+  cursor:pointer;
 }
 .thumb img{
-  max-height:100%;
   max-width:100%;
+  max-height:100%;
 }
 
-.p-title{font-weight:800;margin:8px 0}
-.p-desc{color:var(--muted);font-size:13px}
-.p-price{color:var(--accent1);font-weight:900;font-size:17px}
+.title{font-weight:800;margin-top:8px}
+.price{color:var(--accent1);font-weight:900}
 
-.btn{
-  padding:10px 14px;
-  border-radius:10px;
+button{
+  width:100%;
+  padding:12px;
   border:none;
-  font-weight:900;
-  cursor:pointer;
-  min-height:44px;
-}
-.btn.primary{
+  border-radius:10px;
   background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  color:#05060a;
-}
-.btn.ghost{
-  background:transparent;
-  border:1px solid rgba(255,255,255,.1);
-  color:var(--muted);
+  color:#05040a;
+  font-weight:900;
+  margin-top:10px;
+  cursor:pointer;
 }
 
-.cart-fab{
+/* 🖼 Image modal */
+.modal{
   position:fixed;
-  right:14px;
-  bottom:14px;
-  height:54px;
-  width:54px;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:99;
+}
+.modal.open{display:flex}
+.modal img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:12px;
+}
+
+/* 🛒 cart */
+.cart-btn{
+  position:fixed;
+  right:16px;
+  bottom:16px;
+  height:56px;
+  width:56px;
   border-radius:50%;
   background:linear-gradient(180deg,var(--accent1),var(--accent2));
-  display:flex;
-  justify-content:center;
-  align-items:center;
   font-size:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   cursor:pointer;
 }
 
-.cart-popup{
-  position:fixed;
-  right:10px;
-  left:10px;
-  bottom:80px;
-  background:rgba(12,11,16,.98);
-  border-radius:12px;
-  padding:12px;
-  display:none;
-}
-.cart-popup.open{display:block}
-
 @media(max-width:520px){
-  .hero h2{font-size:26px}
+  .hero h1{font-size:26px}
 }
 </style>
 </head>
 
 <body>
 
+<div class="bg-anim"></div>
+
 <header>
-  <div class="nav-wrap">
+  <div class="nav">
     <div class="brand">
       <img src="assets/wb otaku.PNG">
-      <h1>Otaku Oasis</h1>
+      <span>Otaku Oasis</span>
     </div>
-    <nav>
-      <a href="#shop">Shop</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
   </div>
 </header>
 
 <main>
+  <section class="hero">
+    <h1>Anime Figures for True Otakus</h1>
+    <p>Limited pieces • Collector focused</p>
+  </section>
 
-<section class="hero">
-  <h2>Rare Anime Figures & Collectibles</h2>
-  <p>Hand-picked figures for true collectors.</p>
-
-  <div class="controls">
-    <input id="search" placeholder="Search figures">
-    <select id="categoryFilter">
-      <option value="">All</option>
-      <option>Naruto</option>
-      <option>Demon Slayer</option>
-      <option>Jujutsu Kaisen</option>
-      <option>One Piece</option>
-      <option>Chainsawman</option>
-    </select>
-  </div>
-</section>
-
-<section id="shop" class="section">
-  <h3 style="color:var(--accent2)">Shop</h3>
-  <div id="products-grid" class="grid"></div>
-</section>
-
-<section id="about" class="section">
-  <h3 style="color:var(--accent2)">About</h3>
-  <p style="color:var(--muted)">
-    Otaku Oasis brings premium anime figures at collector-friendly prices.
-  </p>
-</section>
-
-<section id="contact" class="section">
-  <h3 style="color:var(--accent2)">Contact</h3>
-  <p>Email: techoasis0cloud@gmail.com</p>
-  <p>
-    <a href="https://www.facebook.com/otakuoasisbd" target="_blank">Facebook</a> •
-    <a href="https://www.instagram.com/theotakuoasisbd" target="_blank">Instagram</a>
-  </p>
-</section>
-
+  <section>
+    <div class="grid" id="grid"></div>
+  </section>
 </main>
 
-<button class="cart-fab" id="cartFab">🛒</button>
+<div class="cart-btn">🛒</div>
 
-<div class="cart-popup" id="cartPopup">
-  <h4>Cart</h4>
-  <div id="cartItems"></div>
-  <strong id="cartTotal"></strong><br><br>
-  <button class="btn primary" id="checkoutBtn">Checkout</button>
+<div class="modal" id="imgModal" onclick="this.classList.remove('open')">
+  <img id="modalImg">
 </div>
 
 <script>
-const products = [
-  {id:'akaza1', name:'Akaza', priceText:'700tk', price:700, imgs:['assets/akaza1.JPEG','assets/akaza2.JPEG','assets/akaza3.JPEG'], desc:'Akaza figure Size:28cm from Demon Slayer.', category:'Demon Slayer'},
+const products=[
+{id:'akaza1', name:'Akaza', priceText:'700tk', price:700, imgs:['assets/akaza1.JPEG','assets/akaza2.JPEG','assets/akaza3.JPEG'], desc:'Akaza figure Size:28cm from Demon Slayer.', category:'Demon Slayer'},
   {id:'marin', name:'Marin Kitagawa', priceText:'800tk', price:800, imgs:['assets/marin1.JPEG','assets/marin2.JPEG','assets/marin3.JPEG'], desc:'Limited edition Marin figure from My Dressup Darling with box.', category:'Other'},
   {id:'tanjiro', name:'Tanjiro', priceText:'800tk', price:800, imgs:['assets/tanjiro1.JPG','assets/tanjiro2.JPG','assets/tanjiro3.JPG'], desc:'Tanjiro Kamado Size:28cm from Demon Slayer.', category:'Demon Slayer'},
   {id:'makima', name:'Bunny Makima', priceText:'2000tk', price:2000, imgs:['assets/makima1.jpeg','assets/makima2.jpeg','assets/makima3.jpeg'], desc:'Original Furyu Makima figure Size:28cm from Chainsawman with box.', category:'Chainsawman'},
@@ -270,59 +222,25 @@ const products = [
   {id:'gojol', name:'Labubu Gojo', priceText:'800tk', price:800, imgs:['assets/lgojo1.JPG'], desc:'Cute Labubu Gojo from Jujutsu Kaisen.', category:'Jujutsu Kaisen'}
 ];
 
-const grid=document.getElementById('products-grid');
+const grid=document.getElementById('grid');
+const modal=document.getElementById('imgModal');
+const modalImg=document.getElementById('modalImg');
 
-function render(list){
- grid.innerHTML='';
- list.forEach(p=>{
-  const c=document.createElement('div');
-  c.className='product-card';
-  c.innerHTML=`
-   <div class="thumb"><img src="${p.imgs[0]}"></div>
-   <div class="p-title">${p.name}</div>
-   <div class="p-desc">${p.desc}</div>
-   <div class="p-price">${p.priceText}</div>
-   <button class="btn primary" onclick="addToCart('${p.id}')">Add</button>
-  `;
-  grid.appendChild(c);
- });
-}
-
-let cart=[];
-function addToCart(id){
- const p=products.find(x=>x.id===id);
- cart.push(p);
- updateCart();
-}
-
-function updateCart(){
- const items=document.getElementById('cartItems');
- items.innerHTML='';
- let total=0;
- cart.forEach(i=>{
-  total+=i.price;
-  items.innerHTML+=`<div>${i.name} - ${i.priceText}</div>`;
- });
- document.getElementById('cartTotal').textContent=`Total: Tk ${total}`;
-}
-
-document.getElementById('cartFab').onclick=()=>{
- document.getElementById('cartPopup').classList.toggle('open');
-};
-
-document.getElementById('checkoutBtn').onclick=()=>{
- if(!cart.length){alert('Cart empty');return;}
- let msg='ORDER SUMMARY\n\n';
- let total=0;
- cart.forEach(i=>{
-  msg+=`${i.name} - ${i.priceText}\n`;
-  total+=i.price;
- });
- msg+=`\nTotal: Tk ${total}\n\nPlease contact us via Facebook or Email.`;
- alert(msg);
-};
-
-render(products);
+products.forEach(p=>{
+ const c=document.createElement('div');
+ c.className='card';
+ c.innerHTML=`
+  <div class="thumb"><img src="${p.img}"></div>
+  <div class="title">${p.name}</div>
+  <div class="price">${p.priceText}</div>
+  <button>Add to Cart</button>
+ `;
+ c.querySelector('.thumb').onclick=()=>{
+  modalImg.src=p.img;
+  modal.classList.add('open');
+ };
+ grid.appendChild(c);
+});
 </script>
 
 </body>
