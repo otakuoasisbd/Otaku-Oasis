@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Otaku Oasis - Your Fandom Gateway</title>
+  <title>Otaku Oasis - Anime Collectibles</title>
   <link rel="icon" type="image/png" href="assets/otaku logo main.png">
-  <meta name="description" content="Otaku Oasis — anime collectibles & figures.">
+  <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Header -->
+  <!-- Dynamic Waterfall Background -->
+  <canvas id="background"></canvas>
+
   <header>
     <div class="nav-wrap">
       <div class="brand">
         <img src="assets/wb otaku.PNG" alt="Otaku Oasis">
         <div>
           <h1>Otaku Oasis</h1>
-          <small>Anime figures & Collectibles</small>
+          <small>Anime Figures & Collectibles</small>
         </div>
       </div>
-      <nav role="navigation">
-        <a href="#home" class="nav-link">Home</a>
+      <nav>
         <a href="#shop" class="nav-link">Shop</a>
         <a href="#about" class="nav-link">About</a>
         <a href="#contact" class="nav-link">Contact</a>
@@ -30,119 +30,74 @@
     </div>
   </header>
 
-  <!-- Hero -->
   <main>
-    <section id="home" class="hero">
-      <div class="card-hero">
-        <h2>Find rare anime figures & limited collectibles</h2>
-        <p>Premium hand-picked figures and exclusive drops. Browse and contact us — designed for collectors who want the best.</p>
-        <a href="#shop" class="cta"><span class="spark">⚡</span> Shop Now</a>
-
-        <div class="controls">
-          <div class="control-group">
-            <label for="search">Search</label>
-            <input id="search" placeholder="Search by name or description...">
-          </div>
-          <div class="control-group">
-            <label for="categoryFilter">Category</label>
-            <select id="categoryFilter">
-              <option value="">All</option>
-              <option>Naruto</option>
-              <option>Demon Slayer</option>
-              <option>Jujutsu Kaisen</option>
-              <option>One Piece</option>
-              <option>Chainsawman</option>
-              <option>Other</option>
-            </select>
-            <select id="sortBy">
-              <option value="default">Sort</option>
-              <option value="price-asc">Price ↑</option>
-              <option value="price-desc">Price ↓</option>
-              <option value="name-asc">Name A–Z</option>
-            </select>
-          </div>
-        </div>
-      </div>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <h2>Find Rare Anime Figures & Limited Collectibles</h2>
+      <p>Premium hand-picked figures. Browse and contact us — designed for collectors who want the best.</p>
     </section>
 
-    <!-- Shop Section -->
-    <section id="shop" class="section">
-      <h3>Shop</h3>
-      <div id="products-grid" class="grid" role="list"></div>
-      <p id="noResults" class="muted">No results found.</p>
+    <!-- Search & Filters -->
+    <section id="filters" class="controls">
+      <input type="text" id="search" placeholder="Search by name or description...">
+      <select id="categoryFilter">
+        <option value="">All Categories</option>
+        <option>Naruto</option>
+        <option>Demon Slayer</option>
+        <option>Jujutsu Kaisen</option>
+        <option>One Piece</option>
+        <option>Chainsawman</option>
+        <option>Other</option>
+      </select>
+      <select id="sortBy">
+        <option value="default">Sort</option>
+        <option value="price-asc">Price ↑</option>
+        <option value="price-desc">Price ↓</option>
+        <option value="name-asc">Name A–Z</option>
+      </select>
     </section>
+
+    <!-- Products Grid -->
+    <section id="shop" class="grid" aria-live="polite"></section>
+    <p id="noResults" class="no-results">No results found.</p>
 
     <!-- About Section -->
     <section id="about" class="section">
       <h3>About Otaku Oasis</h3>
-      <div class="about-wrap">
-        <div>
-          <p>Otaku Oasis started with one mission: to bring the best anime figures to passionate collectors at an affordable price. We source from trusted suppliers and inspect every item before listing it. Follow our socials for drop alerts and exclusive sales.</p>
-          <p>We update stock frequently. Contact us via Facebook or Instagram for alerts and offers.</p>
-        </div>
-        <aside>
-          <h4>Contact & Hours</h4>
-          <p>Sat–Thu</p>
-          <p>Email: <a href="mailto:techoasis0cloud@gmail.com">techoasis0cloud@gmail.com</a></p>
-          <p>Pickup: New Elephant Road</p>
-        </aside>
-      </div>
+      <p>Otaku Oasis started with one mission: to bring the best anime figures to passionate collectors at an affordable price.</p>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Contact / Social Links -->
     <section id="contact" class="section">
-      <h3>Contact</h3>
-      <div class="contact-wrap">
-        <div>
-          <p>For inquiries, please email us directly. We typically reply within 24 hours.</p>
-          <p><a class="btn primary" href="mailto:techoasis0cloud@gmail.com">Email: techoasis0cloud@gmail.com</a></p>
-        </div>
-        <aside>
-          <h4>Follow & Chat</h4>
-          <p>
-            <a href="https://www.facebook.com/otakuoasisbd" target="_blank">Facebook</a> • 
-            <a href="https://www.instagram.com/theotakuoasisbd" target="_blank">Instagram</a>
-          </p>
-        </aside>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-wrap">
-      <div>© <span id="year"></span> Otaku Oasis</div>
-      <div class="small-muted">a sister concern of Tech Oasis</div>
+      <h3>Contact & Follow Us</h3>
+      <p>Email: <a href="mailto:realotakuoasisbd@gmail.com">techoasis0cloud@gmail.com</a></p>
       <div class="social-links">
         <a href="https://www.facebook.com/otakuoasisbd" target="_blank">Facebook</a>
         <a href="https://www.instagram.com/theotakuoasisbd" target="_blank">Instagram</a>
+        <a href="https://www.tiktok.com/@otakuoasisbd" target="_blank">TikTok</a>
       </div>
-    </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Otaku Oasis • a sister concern of Tech Oasis
   </footer>
 
-  <!-- Modal for product details -->
+  <!-- Product Modal -->
   <div id="modal" class="modal-backdrop">
     <div class="modal">
-      <div>
-        <div class="carousel" id="modalImageWrap">
-          <img id="modalImage" src="" alt="">
-        </div>
-        <div class="thumb-row" id="modalThumbs"></div>
+      <button class="modal-close" id="modalClose">×</button>
+      <div class="modal-content">
+        <button class="nav-arrow" id="prevImg">‹</button>
+        <img id="modalImage" src="" alt="">
+        <button class="nav-arrow" id="nextImg">›</button>
       </div>
-      <div class="meta">
+      <div class="modal-info">
         <h3 id="modalTitle"></h3>
-        <div id="modalDesc" class="small-muted"></div>
-        <div class="price" id="modalPrice"></div>
-        <div class="modal-actions">
-          <button id="modalCloseBtn" class="btn ghost">Close</button>
-        </div>
+        <p id="modalDesc"></p>
       </div>
     </div>
   </div>
-
-  <!-- Toast -->
-  <div id="toast" class="toast"></div>
 
   <script src="script.js"></script>
 </body>
