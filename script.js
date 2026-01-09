@@ -1,4 +1,4 @@
-/* ====== PRODUCTS DATA ====== */
+// ====== Product Data ======
 const products = [
   {id:'akaza1', name:'Akaza', price:700, priceText:'700tk', imgs:['assets/akaza1.JPEG','assets/akaza2.JPEG','assets/akaza3.JPEG'], desc:'Akaza figure Size:28cm from Demon Slayer.', category:'Demon Slayer'},
   {id:'marin', name:'Marin Kitagawa', price:800, priceText:'800tk', imgs:['assets/marin1.JPEG','assets/marin2.JPEG','assets/marin3.JPEG'], desc:'Limited edition Marin figure from My Dressup Darling with box.', category:'Other'},
@@ -16,90 +16,98 @@ const products = [
   {id:'gojol', name:'Labubu Gojo', price:800, priceText:'800tk', imgs:['assets/lgojo1.JPG'], desc:'Cute Labubu Gojo from Jujutsu Kaisen.', category:'Jujutsu Kaisen'}
 ];
 
-/* ====== SELECTORS ====== */
-const productsGrid = document.getElementById('products-grid');
-const searchInput = document.getElementById('search');
-const categorySelect = document.getElementById('categoryFilter');
-const sortSelect = document.getElementById('sortBy');
-const modalWrap = document.getElementById('modal');
-const modalImage = document.getElementById('modalImage');
-const modalThumbs = document.getElementById('modalThumbs');
-const modalTitle = document.getElementById('modalTitle');
-const modalDesc = document.getElementById('modalDesc');
-const modalPrice = document.getElementById('modalPrice');
-const modalCloseBtn = document.getElementById('modalCloseBtn');
-
-/* ====== RENDER PRODUCTS ====== */
-function renderProducts(list = products) {
-  productsGrid.innerHTML = '';
-  if (!list.length) {
-    productsGrid.innerHTML = '<p style="text-align:center;color:#aaa;">No results found.</p>';
-    return;
-  }
-
-  list.forEach(p => {
-    const card = document.createElement('article');
-    card.className = 'product-card';
-    card.innerHTML = `
-      <div class="thumb"><img src="${p.imgs[0]}" alt="${p.name}"></div>
-      <div class="p-title">${p.name}</div>
-      <div class="p-desc">${p.desc}</div>
-      <div class="p-price">${p.priceText}</div>
-    `;
-    card.addEventListener('click', () => openModal(p));
-    productsGrid.appendChild(card);
+// ====== Render Products ======
+const grid = document.getElementById('shop');
+function renderProducts(list){
+  grid.innerHTML='';
+  if(!list.length){ document.getElementById('noResults').style.display='block'; return; }
+  document.getElementById('noResults').style.display='none';
+  list.forEach(p=>{
+    const card = document.createElement('div'); card.className='product-card';
+    card.innerHTML = `<img src="${p.imgs[0]}" alt="${p.name}">
+                      <h4>${p.name}</h4>
+                      <p>${p.desc}</p>`;
+    card.addEventListener('click', ()=> openModal(p));
+    grid.appendChild(card);
   });
 }
+renderProducts(products);
 
-/* ====== SEARCH & FILTER ====== */
-function filterAndRender() {
-  let q = (searchInput.value||'').toLowerCase().trim();
-  let cat = categorySelect.value;
-  let list = products.filter(p => {
-    const matchQ = q ? p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) : true;
-    const matchCat = cat ? p.category === cat : true;
-    return matchQ && matchCat;
+// ====== Search & Filter ======
+const searchInput = document.getElementById('search');
+const categoryFilter = document.getElementById('categoryFilter');
+const sortBy = document.getElementById('sortBy');
+
+function filterRender(){
+  let list = products.filter(p=>{
+    const q = searchInput.value.toLowerCase();
+    const matchSearch = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+    const matchCat = !categoryFilter.value || p.category === categoryFilter.value;
+    return matchSearch && matchCat;
   });
-
-  const sort = sortSelect.value;
-  if(sort==='price-asc') list.sort((a,b)=>a.price-b.price);
-  if(sort==='price-desc') list.sort((a,b)=>b.price-a.price);
-  if(sort==='name-asc') list.sort((a,b)=>a.name.localeCompare(b.name));
-
+  if(sortBy.value==='name-asc') list.sort((a,b)=>a.name.localeCompare(b.name));
+  if(sortBy.value==='price-asc') list.sort((a,b)=>0); // placeholder, add price if you want
   renderProducts(list);
 }
+searchInput.addEventListener('input', filterRender);
+categoryFilter.addEventListener('change', filterRender);
+sortBy.addEventListener('change', filterRender);
 
-searchInput.addEventListener('input', () => filterAndRender());
-categorySelect.addEventListener('change', () => filterAndRender());
-sortSelect.addEventListener('change', () => filterAndRender());
+// ====== Modal ======
+const modal = document.getElementById('modal');
+const modalImg = document.getElementById('modalImage');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const modalClose = document.getElementById('modalClose');
+const prevImg = document.getElementById('prevImg');
+const nextImg = document.getElementById('nextImg');
 
-/* ====== MODAL ====== */
-let currentProduct = null;
+let currentProd=null;
+let currentIndex=0;
+
 function openModal(prod){
-  currentProduct = prod;
-  modalTitle.textContent = prod.name;
-  modalDesc.textContent = prod.desc;
-  modalPrice.textContent = prod.priceText;
-  modalImage.src = prod.imgs[0];
-  modalThumbs.innerHTML = '';
-
-  prod.imgs.forEach((src,i)=>{
-    const t = document.createElement('img');
-    t.src = src;
-    if(i===0) t.classList.add('active');
-    t.addEventListener('click', ()=>{
-      modalImage.src = src;
-      modalThumbs.querySelectorAll('img').forEach(x=>x.classList.remove('active'));
-      t.classList.add('active');
-    });
-    modalThumbs.appendChild(t);
-  });
-
-  modalWrap.classList.add('open');
-  modalWrap.setAttribute('aria-hidden','false');
+  currentProd=prod;
+  currentIndex=0;
+  modal.classList.add('open');
+  updateModal();
 }
-modalCloseBtn.addEventListener('click', ()=>{ modalWrap.classList.remove('open'); modalWrap.setAttribute('aria-hidden','true'); });
-modalWrap.addEventListener('click', (e)=>{ if(e.target === modalWrap) modalWrap.classList.remove('open'); modalWrap.setAttribute('aria-hidden','true'); });
+function updateModal(){
+  modalImg.src = currentProd.imgs[currentIndex];
+  modalTitle.textContent = currentProd.name;
+  modalDesc.textContent = currentProd.desc;
+}
+modalClose.addEventListener('click', ()=> modal.classList.remove('open'));
+modal.addEventListener('click', e=> { if(e.target===modal) modal.classList.remove('open'); });
+prevImg.addEventListener('click', e=> { e.stopPropagation(); currentIndex=(currentIndex-1+currentProd.imgs.length)%currentProd.imgs.length; updateModal(); });
+nextImg.addEventListener('click', e=> { e.stopPropagation(); currentIndex=(currentIndex+1)%currentProd.imgs.length; updateModal(); });
 
-/* ====== INITIAL RENDER ====== */
-renderProducts();
+// ====== Dynamic Waterfall Background ======
+const canvas = document.getElementById('background');
+const ctx = canvas.getContext('2d');
+let width=canvas.width=window.innerWidth;
+let height=canvas.height=window.innerHeight;
+window.addEventListener('resize', ()=>{ width=canvas.width=window.innerWidth; height=canvas.height=window.innerHeight; initDrops(); });
+
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+let drops=[];
+const fontSize = 16;
+const columns = Math.floor(width/fontSize);
+function initDrops(){ drops=[]; for(let x=0;x<columns;x++) drops[x]=Math.random()*height; }
+initDrops();
+
+function draw(){
+  ctx.fillStyle='rgba(0,0,0,0.05)';
+  ctx.fillRect(0,0,width,height);
+  ctx.fillStyle='rgba(95,255,255,0.8)';
+  ctx.font=fontSize+'px monospace';
+  for(let i=0;i<drops.length;i++){
+    const text=letters.charAt(Math.floor(Math.random()*letters.length));
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    drops[i]+=1;
+    if(drops[i]*fontSize>height && Math.random()>0.975) drops[i]=0;
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+document.getElementById('year').textContent=new Date().getFullYear();
