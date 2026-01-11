@@ -1,51 +1,48 @@
-body {
-  background: linear-gradient(180deg, #0b0a12, #151326);
-  overflow-x: hidden;
-}
-
-/* Glass Effect */
-.glass {
-  background: rgba(26, 23, 37, 0.6);
-  backdrop-filter: blur(14px);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 24px;
+/* Glass */
+.glass{
+  background:rgba(26,23,37,.65);
+  backdrop-filter:blur(14px);
+  border-radius:16px;
+  padding:20px;
 }
 
 /* Sakura */
-#sakura-container {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+#sakura-container{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+.sakura{
+  position:absolute;
+  top:-10%;
+  width:14px;
+  height:14px;
+  background:radial-gradient(circle,#ffd6e8,#ff8fb8);
+  border-radius:50% 50% 50% 0;
+  transform:rotate(45deg);
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  to{ transform:translateY(110vh) rotate(360deg); }
 }
 
-.sakura {
-  position: absolute;
-  top: -10%;
-  width: 14px;
-  height: 14px;
-  background: radial-gradient(circle, #ffd6e8, #ff8fb8);
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(45deg);
-  animation: fall linear infinite;
-  opacity: 0.7;
+header, main, footer { position:relative; z-index:2; }
+
+.price{
+  display:block;
+  font-weight:800;
+  color:var(--accent1);
+  margin:4px 0;
 }
 
-@keyframes fall {
-  to {
-    transform: translateY(110vh) rotate(360deg);
-  }
-}
-
-header, main, footer {
-  position: relative;
-  z-index: 2;
-}
-
-.read-more {
-  display: inline-block;
-  margin-top: 10px;
-  color: var(--accent1);
-  font-weight: 700;
+/* Modal arrows – transparent */
+.nav-arrow{
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(10px);
+  border:none;
+  font-size:2rem;
+  color:var(--accent1);
+  padding:8px 12px;
+  border-radius:50%;
 }
