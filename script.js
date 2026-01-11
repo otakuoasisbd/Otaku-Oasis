@@ -1,22 +1,15 @@
-// ===== Sakura Falling Background =====
+// ===== Sakura Background =====
 const sakuraContainer = document.getElementById('sakura-container');
-
 for (let i = 0; i < 35; i++) {
-  const petal = document.createElement('span');
-  petal.className = 'sakura';
-  petal.style.left = Math.random() * 100 + 'vw';
-  petal.style.animationDuration = 8 + Math.random() * 8 + 's';
-  petal.style.animationDelay = Math.random() * 5 + 's';
-  sakuraContainer.appendChild(petal);
+  const s = document.createElement('span');
+  s.className = 'sakura';
+  s.style.left = Math.random() * 100 + 'vw';
+  s.style.animationDuration = 8 + Math.random() * 6 + 's';
+  s.style.animationDelay = Math.random() * 5 + 's';
+  sakuraContainer.appendChild(s);
 }
 
-// ===== YEAR =====
-document.getElementById('year').textContent = new Date().getFullYear();
-
-/* ⚠ KEEP YOUR EXISTING PRODUCT + MODAL CODE BELOW THIS
-   (PASTE YOUR ORIGINAL PRODUCT JS HERE WITHOUT CHANGES) */
-
-
+// ===== Product Data (UNCHANGED) =====
 // ====== Product Data ======
 const products = [
   {id:'akaza1', name:'Akaza', price:700, priceText:'700tk', imgs:['assets/akaza1.JPEG','assets/akaza2.JPEG','assets/akaza3.JPEG'], desc:'Akaza figure Size:28cm from Demon Slayer.', category:'Demon Slayer'},
@@ -35,69 +28,66 @@ const products = [
   {id:'gojol', name:'Labubu Gojo', price:800, priceText:'800tk', imgs:['assets/lgojo1.JPG'], desc:'Cute Labubu Gojo from Jujutsu Kaisen.', category:'Jujutsu Kaisen'}
 ];
 
-// ====== Render Products ======
+
+// ===== Render Products =====
 const grid = document.getElementById('shop');
 function renderProducts(list){
   grid.innerHTML='';
-  if(!list.length){ document.getElementById('noResults').style.display='block'; return; }
+  if(!list.length){
+    document.getElementById('noResults').style.display='block';
+    return;
+  }
   document.getElementById('noResults').style.display='none';
+
   list.forEach(p=>{
-    const card = document.createElement('div'); card.className='product-card';
-    card.innerHTML = `<img src="${p.imgs[0]}" alt="${p.name}">
-                      <h4>${p.name}</h4>
-                      <p>${p.desc}</p>`;
-    card.addEventListener('click', ()=> openModal(p));
+    const card = document.createElement('div');
+    card.className='product-card';
+    card.innerHTML = `
+      <img src="${p.imgs[0]}" alt="${p.name}">
+      <h4>${p.name}</h4>
+      <span class="price">${p.priceText}</span>
+      <p>${p.desc}</p>
+    `;
+    card.onclick = ()=> openModal(p);
     grid.appendChild(card);
   });
 }
 renderProducts(products);
 
-// ====== Search & Filter ======
-const searchInput = document.getElementById('search');
-const categoryFilter = document.getElementById('categoryFilter');
-const sortBy = document.getElementById('sortBy');
-
-function filterRender(){
-  let list = products.filter(p=>{
-    const q = searchInput.value.toLowerCase();
-    const matchSearch = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
-    const matchCat = !categoryFilter.value || p.category === categoryFilter.value;
-    return matchSearch && matchCat;
-  });
-  if(sortBy.value==='name-asc') list.sort((a,b)=>a.name.localeCompare(b.name));
-  if(sortBy.value==='price-asc') list.sort((a,b)=>0); // placeholder, add price if you want
-  renderProducts(list);
-}
-searchInput.addEventListener('input', filterRender);
-categoryFilter.addEventListener('change', filterRender);
-sortBy.addEventListener('change', filterRender);
-
-// ====== Modal ======
+// ===== Modal =====
 const modal = document.getElementById('modal');
 const modalImg = document.getElementById('modalImage');
 const modalTitle = document.getElementById('modalTitle');
 const modalDesc = document.getElementById('modalDesc');
-const modalClose = document.getElementById('modalClose');
-const prevImg = document.getElementById('prevImg');
-const nextImg = document.getElementById('nextImg');
+const modalPrice = document.getElementById('modalPrice');
 
-let currentProd=null;
-let currentIndex=0;
+let currentProd=null, currentIndex=0;
 
-function openModal(prod){
-  currentProd=prod;
+function openModal(p){
+  currentProd=p;
   currentIndex=0;
   modal.classList.add('open');
   updateModal();
 }
 function updateModal(){
-  modalImg.src = currentProd.imgs[currentIndex];
-  modalTitle.textContent = currentProd.name;
-  modalDesc.textContent = currentProd.desc;
+  modalImg.src=currentProd.imgs[currentIndex];
+  modalTitle.textContent=currentProd.name;
+  modalDesc.textContent=currentProd.desc;
+  modalPrice.textContent=currentProd.priceText;
 }
-modalClose.addEventListener('click', ()=> modal.classList.remove('open'));
-modal.addEventListener('click', e=> { if(e.target===modal) modal.classList.remove('open'); });
-prevImg.addEventListener('click', e=> { e.stopPropagation(); currentIndex=(currentIndex-1+currentProd.imgs.length)%currentProd.imgs.length; updateModal(); });
-nextImg.addEventListener('click', e=> { e.stopPropagation(); currentIndex=(currentIndex+1)%currentProd.imgs.length; updateModal(); });
+
+document.getElementById('modalClose').onclick=()=>modal.classList.remove('open');
+document.getElementById('prevImg').onclick=e=>{
+  e.stopPropagation();
+  currentIndex=(currentIndex-1+currentProd.imgs.length)%currentProd.imgs.length;
+  updateModal();
+};
+document.getElementById('nextImg').onclick=e=>{
+  e.stopPropagation();
+  currentIndex=(currentIndex+1)%currentProd.imgs.length;
+  updateModal();
+};
+
+document.getElementById('year').textContent=new Date().getFullYear();
 
 
