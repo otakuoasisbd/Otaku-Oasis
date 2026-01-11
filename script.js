@@ -1,3 +1,22 @@
+// ===== Sakura Falling Background =====
+const sakuraContainer = document.getElementById('sakura-container');
+
+for (let i = 0; i < 35; i++) {
+  const petal = document.createElement('span');
+  petal.className = 'sakura';
+  petal.style.left = Math.random() * 100 + 'vw';
+  petal.style.animationDuration = 8 + Math.random() * 8 + 's';
+  petal.style.animationDelay = Math.random() * 5 + 's';
+  sakuraContainer.appendChild(petal);
+}
+
+// ===== YEAR =====
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ⚠ KEEP YOUR EXISTING PRODUCT + MODAL CODE BELOW THIS
+   (PASTE YOUR ORIGINAL PRODUCT JS HERE WITHOUT CHANGES) */
+
+
 // ====== Product Data ======
 const products = [
   {id:'akaza1', name:'Akaza', price:700, priceText:'700tk', imgs:['assets/akaza1.JPEG','assets/akaza2.JPEG','assets/akaza3.JPEG'], desc:'Akaza figure Size:28cm from Demon Slayer.', category:'Demon Slayer'},
@@ -81,33 +100,4 @@ modal.addEventListener('click', e=> { if(e.target===modal) modal.classList.remov
 prevImg.addEventListener('click', e=> { e.stopPropagation(); currentIndex=(currentIndex-1+currentProd.imgs.length)%currentProd.imgs.length; updateModal(); });
 nextImg.addEventListener('click', e=> { e.stopPropagation(); currentIndex=(currentIndex+1)%currentProd.imgs.length; updateModal(); });
 
-// ====== Dynamic Waterfall Background ======
-const canvas = document.getElementById('background');
-const ctx = canvas.getContext('2d');
-let width=canvas.width=window.innerWidth;
-let height=canvas.height=window.innerHeight;
-window.addEventListener('resize', ()=>{ width=canvas.width=window.innerWidth; height=canvas.height=window.innerHeight; initDrops(); });
 
-const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-let drops=[];
-const fontSize = 16;
-const columns = Math.floor(width/fontSize);
-function initDrops(){ drops=[]; for(let x=0;x<columns;x++) drops[x]=Math.random()*height; }
-initDrops();
-
-function draw(){
-  ctx.fillStyle='rgba(0,0,0,0.05)';
-  ctx.fillRect(0,0,width,height);
-  ctx.fillStyle='rgba(95,255,255,0.8)';
-  ctx.font=fontSize+'px monospace';
-  for(let i=0;i<drops.length;i++){
-    const text=letters.charAt(Math.floor(Math.random()*letters.length));
-    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-    drops[i]+=1;
-    if(drops[i]*fontSize>height && Math.random()>0.975) drops[i]=0;
-  }
-  requestAnimationFrame(draw);
-}
-draw();
-
-document.getElementById('year').textContent=new Date().getFullYear();
